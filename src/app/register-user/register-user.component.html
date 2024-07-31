@@ -295,16 +295,17 @@
       <div class="d-flex justify-content-center align-items-center">
         <div class="col-md-4">
           <button
-            class="btn btn-primary p-3"
+            class="btn btn-primary p-3 w-100"
             [disabled]="registerForm.invalid"
             (click)="RegisterUser()" 
           >
             Register Now
           </button>
-          <button class="btn btn-secondary p-3 m-3">Reset</button>
+        
         </div>
       </div>
     </div>
+   
 
     <div class="row p-2 m-2">
       <div class="d-flex justify-content-center align-items-center">
@@ -317,7 +318,7 @@
 </div>
 
 <p-dialog 
-    header="Confirm Your Order Please" 
+    header="Registration Successful" 
     [modal]="true"
     [(visible)]="showRegSuccess" 
     [style]="{ width: '50rem' }" 
