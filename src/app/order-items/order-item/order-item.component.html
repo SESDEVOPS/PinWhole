@@ -1,0 +1,227 @@
+<!-- <p-card
+  header="{{ order.itemName }}"
+  subheader="{{ order.itemName }}"
+  [style]="{ width: '100%', height: '50%', background: '#FCFAFA' }"
+>
+  <ng-template pTemplate="header">
+    @if (order.image == null) {
+    <img src="../../assets/imgs/noImage.jpg" height="250" alt="Product Image" />
+    } @else {
+    <img [src]="order.image" height="250" alt="Product Image" />
+    }
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <div style="justify-content: center; text-align: center">
+      <button
+        type="button"
+        (click)="purchaseItem(order)"
+        class="btn btn-outline-primary"
+      >
+        <i class="bi bi-cart-fill"></i>
+        Purchase
+      </button>
+    </div>
+  </ng-template>
+</p-card> -->
+
+<div class="card text-bg-light" style="width: 18rem" (click)="purchaseItem(item)" >
+  @if (item.image == null) {
+  <img
+    src="../../assets/imgs/noImage.jpg"
+    class="card-img-top"
+    height="150"
+    width="150"
+    alt="Product Image"
+  />
+  } @else {
+  <img
+    [src]="item.image"
+    height="150"
+    width="100"
+    class="card-img-top"
+    alt="Product Image"
+  />
+  }
+  <div class="card-body" >
+    <div class="text-bg-light p-1 card-title" style="text-align: center">
+      {{ item.itemName }}
+    </div>
+
+    <!-- <div style="justify-content: center; text-align: center">
+      <button
+        type="button"
+        (click)="purchaseItem(item)"
+        class="btn btn-outline-primary"
+      >
+        <i class="bi bi-cart-fill"></i>
+        Purchase
+      </button>
+    </div> -->
+  </div>
+</div>
+
+<p-dialog
+  header="{{ item.itemName }}"
+  
+  [modal]="true"
+  [(visible)]="showOrderPopup"
+  [style]="{ width: '30rem', height: '33rem', padding: '5px' }"
+>
+<div class="spinner-border" role="status" *ngIf="loadingProgress">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div class="alert alert-success" role="alert" *ngIf="orderSuccessfull">
+  Order Created successfully, the Order ID is {{this.generatedOrderID}}
+</div>
+<div class="alert alert-danger" *ngIf="orderCreationError" role="alert">
+  Error creating order !! 
+</div>
+ 
+  <div class="row">
+    <form [formGroup]="formGroupForOrder">
+
+      <div class="row mb-2 pb-2">
+
+        <label class="pb-2" style="font-weight: bold;">Region</label>
+        <p-dropdown
+          formControlName="region"
+          [(ngModel)]="selRegion"
+          [options]="regions"
+          [style]="{ width: '100%',  borderRadius: '10px'}"
+          optionLabel="name"
+          placeholder="Select Your Region"
+          (onChange)="onSelectedRegionChanged($event)"
+        />
+      </div>
+      <div class="row mb-4">
+        <label class="pb-2" style="font-weight: bold;">Denominination</label>
+        <p-dropdown
+          [(ngModel)]="selectedCurrency"
+          [style]="{ width: '100%',  borderRadius: '10px'}"
+          formControlName="currency"
+          [options]="allCurrencies"
+          (onChange)="onSelectedCurrencyChanged($event)"
+          optionLabel="codeName"
+          placeholder="Select Denominination"
+        ></p-dropdown>
+      </div>
+      <div class="row mb-2" *ngIf="selectedCode != undefined">
+        
+          <p class="m-1" style="font-weight: bold;">
+            The current offer on this item is
+            <mark>{{ clientOfferPercentage }}%</mark>
+          </p>
+       
+      </div>
+      
+      <table class="table table-responsive">
+        <thead>
+          <tr >
+            <th scope="col" style="text-align: center;">Quantity</th>
+            <th scope="col" style="text-align: center;">Price</th>
+            <th scope="col"  style="text-align: center;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr  class="boreder-0">
+            <td  style="text-align: center;">
+              <p-floatLabel>
+                <input
+                  pInputText
+                  id="quantity"
+                  formControlName="quantity"
+                  [(ngModel)]="finalOrderToProcess.qty"
+                  (ngModelChange)="calculateTotalPrice()"
+                />
+              </p-floatLabel>
+            </td>
+            <td   style="text-align: center; ">
+              {{ discountedPrice }}
+              <del style="color: red" *ngIf="showDiscountedPrice" class="p-3">{{
+                finalOrderToProcess.price
+              }}</del>
+            </td>
+            <td style="text-align: center;">{{ finalOrderToProcess.total }}</td>
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <div class="row col-md-12 mx-auto">
+        <!-- <p-button label="Proceed" (onclick)="FinalPurchase()" [raised]="true" /> -->
+
+        <button
+          type="button"
+          class="btn  btn-outline-danger"
+          [disabled]="formGroupForOrder.invalid || orderSuccessfull"
+          (click)="CreateItem()"
+                  >
+          <i class="bi bi-cart-fill"></i>
+          Submit
+        </button>
+      </div>
+
+      <div
+        class="row col-md-10 mt-2 mx-auto alert alert-danger"
+        *ngIf="insufficeintBalance"
+        role="alert"
+      >
+        <i class="bi bi-exclamation-triangle-fill">
+          Your balance is insufficient to complete the order !</i
+        >
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+
+<p-dialog 
+    header="Confirm Your Order Please" 
+    [modal]="true"
+    [(visible)]="showOrderToProceedDialog" 
+    [style]="{ width: '50rem' }" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    [maximizable]="true">
+    
+    <h3>
+      {{symbol}}{{Price}} will be deducted from the wallet, please confirm.
+    </h3>
+    <div class="bg-danger">
+      {{errMsg}}
+    </div>
+    <div class="d-flex justify-content-between  mt-3">
+      <button style="background-color: green;color:white"   
+      (click)="payOrder()"  > Confirm</button>
+      <span>
+        <div class="spinner-border" role="status" *ngIf="loadingProgressPD">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </span> 
+      <button color="primary" > Add balance</button>
+      <button color="primary"   > Cancel</button>
+
+    </div>
+</p-dialog>
+
+
+<p-dialog 
+    header="Order Complete" 
+    [modal]="true"
+    [(visible)]="showOrderCompleteDialog" 
+    [style]="{ width: '35rem' }" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    [maximizable]="true">
+    <h4>
+      Your order has been completed
+    </h4>
+   
+    <div class="d-flex justify-content-between  mt-3">
+      <button style="background-color: green;color:white"   
+      (click)="viewOrder()"  > View Order </button>
+      <!-- <button color="primary" style="background-color: rgb(4, 0, 128);color:white"  
+      (click)="continueShopping()"> Continue Shopping</button> -->
+    
+
+    </div>
+</p-dialog>

@@ -1,0 +1,339 @@
+<div class="container">
+  <form [formGroup]="registerForm">
+    <div class="row p-3">
+      <div class="d-flex justify-content-center">
+        <div class="col-md-4">
+          <img src="../../assets/imgs/logo.png" class="img-fluid" alt="..." />
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-user"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Email Address"
+              formControlName="userEmail"
+              [(ngModel)]="email"
+             
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="emailError"
+              [hidden]="userEmail.untouched || userEmail.valid"
+              class="form-text text-muted"
+            >
+              Please enter the correct Email
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <!-- <div class="input-group">
+            <div class="input-group-text">
+              <i class="bi bi-buildings"></i>
+            </div>
+          </div> -->
+
+          <p-password
+            [(ngModel)]="pwd"
+            placeholder="Password"
+            (change)="checkPasswordCriteria($event)"
+            formControlName="userPassword"
+          >
+            <ng-template pTemplate="header">
+              <h6>Pick a password</h6>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <p-divider />
+              <p class="mt-2">Suggestions</p>
+              <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 10 characters</li>
+                <li>Example: Abcde12345</li>
+              </ul>
+            </ng-template>
+          </p-password>
+          <span>
+            <h5
+              id="passwordErr"
+              [hidden]="userPassword.untouched || userPassword.valid"
+              class="form-text text-muted"
+            >
+              Please enter the valid password
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-user"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Contact Person Name"
+              formControlName="userName"
+              [(ngModel)]="username"
+            />
+          </p-inputGroup>
+
+          <span>
+            <h5
+              id="NameErr"
+              [hidden]="userName.untouched || userName.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Contact Person Name
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-phone"></i>
+            </p-inputGroupAddon>
+            <input pInputText placeholder="Phone"   [(ngModel)]="phone_number" formControlName="userPhone" />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userPhoneErr"
+              [hidden]="userPhone.untouched || userPhone.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Phone
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-building"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Business Name"
+              formControlName="userBusinessName"
+              [(ngModel)]="company"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessNameErr"
+              [hidden]="userBusinessName.untouched || userBusinessName.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Business Name
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-sort-numeric-up"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Business Registeration"
+              formControlName="userBusinessRegistration"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessRegNoErr"
+              [hidden]="
+                userBusinessRegistration.untouched ||
+                userBusinessRegistration.valid
+              "
+              class="form-text text-muted"
+            >
+              Please enter the Business Registration No
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-sort-numeric-up"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="TAX / VAT ID"
+              formControlName="userBusinessTaxNo"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessTaxNoErr"
+              [hidden]="userBusinessTaxNo.untouched || userBusinessTaxNo.valid"
+              class="form-text text-muted"
+            >
+              Please enter the TAX / VAT ID
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="bi bi-buildings"></i>
+            </div>
+            <!-- <input
+                type="text"
+                class="form-control"
+                formControlName="userCompany"
+                placeholder="Business Category"
+              /> -->
+
+            <select class="form-select" aria-label="Default select example">
+              <option selected>Select Business Category</option>
+              <option value="1">Retail</option>
+              <option value="2">Re-seller</option>
+              <option value="3">Wholesale</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-sort-numeric-up"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Expected Purchase Volume Per Month"
+              formControlName="userBusinessVolume"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessVolumeErr"
+              [hidden]="
+                userBusinessVolume.untouched || userBusinessVolume.valid
+              "
+              class="form-text text-muted"
+            >
+              Please enter the Expected Purchase Volume Per Month
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-globe"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Country"
+              formControlName="userCountry"
+              [(ngModel)]="country"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userCountryErr"
+              [hidden]="userCountry.untouched || userCountry.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Country
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <button
+            class="btn btn-primary p-3"
+            [disabled]="registerForm.invalid"
+            (click)="RegisterUser()" 
+          >
+            Register Now - {{registerForm.invalid}}
+          </button>
+          <button class="btn btn-secondary p-3 m-3">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4 text-light">
+          Alreay have an account. <a href="/login">Login Here</a>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<p-dialog 
+    header="Confirm Your Order Please" 
+    [modal]="true"
+    [(visible)]="showRegSuccess" 
+    [style]="{ width: '50rem' }" 
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    [maximizable]="true">
+    
+    <h3>
+      We are reviewing your application and you will receive an email once approved
+    </h3>
+    <div class="bg-danger">
+     
+    </div>
+    <div class="d-flex justify-content-between  mt-3">
+      <button style="background-color: green;color:white"   
+      (click)="goToLogin()" > Close</button>
+    
+
+    </div>
+</p-dialog>

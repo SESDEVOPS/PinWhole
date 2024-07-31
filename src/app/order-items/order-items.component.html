@@ -1,0 +1,146 @@
+<div class="m-3">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-5">
+        <div class="input-group flex-nowrap">
+          <span class="input-group-text" id="addon-wrapping">
+            <i class="bi bi-search"></i>
+          </span>
+          <input          
+            name="searchCri"
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="addon-wrapping"
+            [(ngModel)]="searchFilter"
+            (keyup)="searchItems()"
+          
+          />
+          <span class="input-group-text" id="addon-wrapping">
+            <button type="button" (click)="applyFilterValueBtn()" class="btn btn-outline-primary">
+              Search
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card flex justify-content-center" *ngIf="loading">
+  <p-progressSpinner ariaLabel="loading" />
+</div>
+<div
+  *ngIf="filteredItems.length > 0; else noItems"
+  class="row table table-responsive pt-2"
+  style="
+    max-height: 550px;
+    overflow-x: hidden;
+    border-radius: 10px;
+    min-height: 550px;
+    height: auto;
+    background-color: white;
+  "
+>
+  <div
+    class="col-md-4"
+    *ngFor="let item of filteredItems"
+    style="justify-content: center"
+  >
+    <app-order-item [item]="item"></app-order-item>
+    <!-- <p-card
+      header="{{ order.itemName }}"
+      subheader="{{ order.itemName }}"
+      [style]="{ width: '100%', height: '50%', background: '#FCFAFA' }"
+    >
+      <ng-template pTemplate="header">
+        @if (order.image == null) {
+        <img
+          src="../../assets/imgs/noImage.jpg"
+          height="250"
+          alt="Product Image"
+        />
+        } @else {
+        <img [src]="order.image" height="250" alt="Product Image" />
+        }
+      </ng-template>
+
+      <ng-template pTemplate="footer">
+        <div style="justify-content: center; text-align: center">          
+          <button type="button" (click)="purchaseItem(order)" 
+          class="btn btn-outline-primary">
+          <i class="bi bi-cart-fill"></i>
+          Purchase</button>
+         
+        </div>
+      </ng-template>
+    </p-card> -->
+  </div>
+</div>
+<div class="row pr-5" style="text-align: right" *ngIf="showMore" >
+  <div class="col-md-12">
+    <button type="button" (click)="getMoreItems()" class="btn btn-link">More
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+  </div>
+</div>
+
+<!-- <div class="card flex justify-content-center">
+  <p-progressSpinner ariaLabel="loading" />
+</div> -->
+
+<ng-template #noItems>
+  <p *ngIf="loading">No items available.</p>
+</ng-template>
+
+<!-- <p-dialog
+  header="Item Name"
+  [modal]="true"
+  [(visible)]="showOrderPopup"
+  [style]="{ width: '40rem', height: '30rem', padding: '5px' }"
+>
+  <form [formGroup]="formGroupForOrder">
+    <div class="row mb-3">
+      <p-dropdown
+        formControlName="region"
+        [options]="regions"
+        optionLabel="name"
+        placeholder="Select A Region"
+      />
+    </div>
+    <div class="row mt-3">
+      <p-dropdown
+        formControlName="currency"
+        [options]="currencies"
+        (onChange)="test($event)"
+        optionLabel="codePriceAndCurrency"
+        placeholder="Select Denominination"
+      />
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-md-3">
+        <p-floatLabel>
+          <input pInputText id="quantity"  formControlName="quantity" style="width: 90%" />
+          <label for="quantity"   style="font-weight: bold">Quantity</label>
+        </p-floatLabel>
+      </div>
+      <div class="col-md-3">
+        <p-floatLabel>
+          <input pInputText id="price"  formControlName="price" style="width: 90%" />
+          <label for="price" style="font-weight: bold">Price</label>
+        </p-floatLabel>
+      </div>
+      <div class="col-md-3">
+        <p-floatLabel>
+          <input pInputText id="total"  formControlName="total" style="width: 90%" />
+          <label for="total" style="font-weight: bold">Total</label>
+        </p-floatLabel>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <p-button label="Proceed" [raised]="true" />
+    </div>
+  </form>
+</p-dialog> -->

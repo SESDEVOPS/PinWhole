@@ -1,0 +1,305 @@
+<div class="d-flex justify-content-center align-items-center">
+  <div class="text-center">
+    <div class="row p-5">
+      <div class="d-flex justify-content-center">
+        <div class="col-md-4">
+          <img
+            src="../../assets/imgs/login_logo.png"
+            class="img-responsive"
+            alt="..."
+          />
+        </div>
+      </div>
+    </div>
+
+    <fieldset>
+      <legend>
+        <p style="color: white">Login to your account:</p>
+      </legend>
+      <form class="row g-3" [formGroup]="loginForm">
+        <div class="row p-3">
+          <div class="d-flex justify-content-center">
+            <div class="col-md-4">
+              <!-- <input
+                type="email"
+                [(ngModel)]="email"
+                formControlName="emailFormControl"
+                class="form-control"
+                id="inputEmail4"
+              /> -->
+
+              <p-inputGroup>
+                <p-inputGroupAddon>
+                  <i class="pi pi-user"></i>
+                </p-inputGroupAddon>
+                <input
+                  pInputText
+                  placeholder="Email Address"
+                  formControlName="emailFormControl"
+                  [(ngModel)]="email"
+                  formControlName="emailFormControl"
+                />
+              </p-inputGroup>
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-3">
+          <div class="d-flex justify-content-center">
+            <div class="col-md-4">
+              <!-- <input
+                type="email"
+                [(ngModel)]="email"
+                formControlName="emailFormControl"
+                class="form-control"
+                id="inputEmail4"
+              /> -->
+
+              <p-inputGroup>
+                <p-inputGroupAddon>
+                  <i class="pi pi-user"></i>
+                </p-inputGroupAddon>
+                <input
+                  pInputText
+                  placeholder="Password"
+                  type="password"
+                  [(ngModel)]="password"
+                  formControlName="passFormControl"
+                />
+              </p-inputGroup>
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-3">
+         
+          <div class="d-flex justify-content-center">
+           
+            <div class="col-md-4">
+             
+              <button
+                class="btn btn-dark p-3 w-100"
+                type="submit"
+                (click)="signIn()"
+              >
+                Login
+              </button>
+              <div  class="alert alert-danger"
+              *ngIf="hasError"
+              role="alert">{{error}}</div>
+            </div>
+          </div>
+         
+        </div>
+
+        <div class="row p-3">
+          <div class="d-flex justify-content-center">
+            <div class="col-md-4 text-light">
+              <a href="" style="color: white">Forget Password</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row p-3">
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="col-md-4 text-light">
+              Don't Have An Account <a href="/register">Register Here</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <form [formGroup]="formGroupGoogleCode">
+            <p-dialog
+              header="Google Authentication"
+              [modal]="true"
+              [(visible)]="showGoogleCodeDialog"
+              [style]="{ width: '30rem' }"
+              [breakpoints]="{ '1199px': '75vw', '575px': '70vw' }"
+             
+            >
+              <h4>QRCode with google authenticator</h4>
+              <div>
+                <p>Code</p>
+                <input
+                  type="text"
+                  [(ngModel)]="gCodeValue"
+                  formControlName="gCode"
+                  class="form-control"
+                />
+              </div>
+              <div class="d-flex justify-content-between mt-3">
+                <button
+                  style="background-color: green; color: white"
+                  (click)="add()"
+                >
+                  Submit
+                </button>
+              </div>
+              <div
+                class="alert alert-danger mt-5"
+                *ngIf="hasError"
+                role="alert"
+              >
+                {{ error }}
+              </div>
+            </p-dialog>
+          </form>
+        </div>
+      </form>
+    </fieldset>
+  </div>
+</div>
+
+<!-- <div class="container">
+  <form [formGroup]="registerForm">
+    <div class="row p-3">
+      <div class="d-flex justify-content-center">
+        <div class="col-md-4">
+          <img src="../../assets/imgs/logo.png" class="img-fluid" alt="..." />
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-user"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Email Address"
+              formControlName="userEmail"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="emailError"
+              [hidden]="userEmail.untouched || userEmail.valid"
+              class="form-text text-muted"
+            >
+              Please enter the correct Email
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-phone"></i>
+            </p-inputGroupAddon>
+            <input pInputText placeholder="Phone" formControlName="userPhone" />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userPhoneErr"
+              [hidden]="userPhone.untouched || userPhone.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Phone
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-building"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Business Name"
+              formControlName="userBusinessName"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessNameErr"
+              [hidden]="userBusinessName.untouched || userBusinessName.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Business Name
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-sort-numeric-up"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="Business Registeration"
+              formControlName="userBusinessRegistration"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessRegNoErr"
+              [hidden]="
+                userBusinessRegistration.untouched ||
+                userBusinessRegistration.valid
+              "
+              class="form-text text-muted"
+            >
+              Please enter the Business Registration No
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <p-inputGroup>
+            <p-inputGroupAddon>
+              <i class="pi pi-sort-numeric-up"></i>
+            </p-inputGroupAddon>
+            <input
+              pInputText
+              placeholder="TAX / VAT ID"
+              formControlName="userBusinessTaxNo"
+            />
+          </p-inputGroup>
+          <span>
+            <h5
+              id="userBusinessTaxNoErr"
+              [hidden]="userBusinessTaxNo.untouched || userBusinessTaxNo.valid"
+              class="form-text text-muted"
+            >
+              Please enter the TAX / VAT ID
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="bi bi-buildings"></i>
+            </div>
+            <!-- <input
+                type="text"
+                class="form-control"
+                formControlName="userCompany"
+                placeholder="Business Category"
+              /> -->

@@ -1,0 +1,11 @@
+{
+    "/api": {
+      "target": "https://clientproduction.pinwhole.com",
+      "secure": false,
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+  }
+  

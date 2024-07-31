@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+@import "primeicons/primeicons.css";
+
+body {
+  position: relative;
+  font-family: "Roboto", sans-serif;
+  background-image: url("/assets/imgs/bg.png");
+  background-size: cover;
+  background-repeat: repeat;
+  background-position: center;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+body a {
+  text-decoration: none !important;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+h5 {
+  font-size: small;
+  color: red !important;
+}

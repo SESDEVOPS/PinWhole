@@ -1,0 +1,28 @@
+
+
+.btn-primary:hover {
+    background-color: #0a0a0a;
+    border-color: #eaebec;
+    color: #db2c2c;
+  }
+
+
+  .btn-primary {
+    background-color: transparent;
+    border-color: #dadada;
+    color: white;
+  }
+  /* .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+  } */
+
+  h5{
+    font-size: small;
+    color: red !important; 
+  }
+
+  .custom-tooltip {
+    --bs-tooltip-bg: var(--bd-violet-bg);
+    --bs-tooltip-color: var(--bs-white);
+  }
