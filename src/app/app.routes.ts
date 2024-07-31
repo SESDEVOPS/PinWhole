@@ -11,25 +11,25 @@ export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-   // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
       { path: 'new', component: OrderItemsComponent, 
-      // canActivate: [authGuard] 
+       canActivate: [authGuard] 
       },
       {
         path: 'pending',
         component: PendingOrderComponent,
-        // canActivate: [authGuard],
+         canActivate: [authGuard],
       },
       {
         path: 'archive',
         component: ArchiveOrderComponent,
-       // canActivate: [authGuard],
+        canActivate: [authGuard],
       },
       {
         path: 'history',
         component: OrderHistoryComponent,
-        //  canActivate: [authGuard],
+          canActivate: [authGuard],
       },
     ],
   },
