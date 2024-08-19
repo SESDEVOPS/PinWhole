@@ -8,6 +8,11 @@ import { UserService } from '../Services/user.service';
 import { WalletService } from '../Services/wallet.service';
 import { HelperService } from '../Services/helperService';
 import { ItemService } from '../Services/itemservice';
+import { SplitButtonModule } from 'primeng/splitbutton';
+import { ToastModule } from 'primeng/toast';
+import { MenuItem ,MessageService } from 'primeng/api';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-home',
@@ -19,7 +24,10 @@ import { ItemService } from '../Services/itemservice';
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
+    SplitButtonModule, ToastModule,
+    CommonModule
   ],
+  providers: [MessageService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -31,6 +39,8 @@ export class HomeComponent implements OnInit {
   isAdmin:any=false;
   clientID:any;
   draftItems:any=0;
+  items: MenuItem[];
+  dropdownItems = ['Option 1', 'Option 2', 'Option 3'];
   constructor(
     private balanceService: BalanceService,
     private userService: UserService,
@@ -40,6 +50,7 @@ export class HomeComponent implements OnInit {
     private itemservice: ItemService,
     private router: Router,
   ) {
+    this.items = [ { label: 'Angular Website', url: 'http://angular.io' },];
     // this.onWindowScroll();
   }
   async ngOnInit() {
@@ -49,7 +60,9 @@ export class HomeComponent implements OnInit {
     await this.CheckClientRoleWithAction();
     
   }
-
+  save(){
+    alert("---")
+  }
   async GetClientUSDBalance() {
 
     await this.userService.GetCurrenctUser().then((data)=>

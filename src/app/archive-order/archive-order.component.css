@@ -1,0 +1,6 @@
+.child-div {
+    background-color: white;   
+    height: 80%;  /* Ensure child div takes full height of the parent */
+    overflow: auto; /* Handle internal scrolling if content overflows */
+    box-sizing: border-box; /* Ensure padding and border are included in the height/width calculations */
+  }

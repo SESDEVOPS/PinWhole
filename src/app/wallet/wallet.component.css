@@ -1,0 +1,9 @@
+.no-highlight .accordion-button:not(.collapsed) {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: inherit;
+}
+
+.no-highlight .accordion-button:focus {
+    box-shadow: none !important;
+}

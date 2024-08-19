@@ -22,14 +22,18 @@ export class BalanceService {
   token: any = '';
   refreshToken: any = '';
   clientID: any = '';
+ 
   constructor(private http: HttpClient, private logService: LogService) {
     this.apiUrl = environment.apiUrl;
     this.token = localStorage.getItem("token");
     this.refreshToken=localStorage.getItem("refreshToken");
     this.clientID = localStorage.getItem('userID');
+
+    
   }
 
   getUpdatedBalance(newBalance: number): void {
+
     this.balanceSubject.next(newBalance);
   }
 
@@ -50,4 +54,123 @@ export class BalanceService {
         )
     );
   }
+
+  checkBlanaceByName(clientID:any,currencyName:any):Promise<any>{
+
+    return new Promise((resolve, reject) => {
+   
+      this.http.get<any>( environment.apiUrl+'/api/balance/checkBalance/'+clientID+'/'+currencyName)
+      .pipe
+      (
+        catchError(async(err) => {
+          if(err.status!=401){
+            //this.spinnerService.stop() 
+  this.logService.saveLog(err.message)
+  var config=await this.logService.getConfiguration();
+  if(config.value==true)
+  
+          return throwError(null);    
+       }return null;   })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+     
+      }
+  
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+  
+  
+    })
+  }
+
+  addBalance(balance:any ):Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.post<Region>(
+      environment.apiUrl+'/api/balance/create',
+      balance
+    ) 
+    .pipe
+    (
+      catchError(async(err) => {
+        if(err.status!=401){
+          //this.spinnerService.stop() 
+  this.logService.saveLog(err.message)
+  var config=await this.logService.getConfiguration();
+  if(config.value==true)
+  
+        return throwError(null);    
+      }return null;  })
+    )
+    .subscribe((data:any)=>{
+      resolve(data)
+  
+    }),
+    (  error: any) => {
+  reject(error);
+  }
+  })
+  
+  }
+
+  editBlance(balance:any):Promise<any>
+{
+  return new Promise((resolve, reject) => {
+
+    this.http.put<any>( environment.apiUrl+'/api/balance/edit',balance)
+    .pipe
+    (
+      catchError(async(err) => {
+        if(err.status!=401){
+         // this.spinnerService.stop()
+this.logService.saveLog(err.message)
+var config=await this.logService.getConfiguration();
+if(config.value==true)
+
+        return throwError(null);    
+   }return null; })
+    )
+    .subscribe((data:any)=>{
+      resolve(data)
+    }
+
+    ),
+        (  error: any) => {
+      reject(error);
+    }
+ 
+
+  })
+}
+
+getBalanceById(clientID:any):Promise<any>{
+  const headers = { Authorization: `Bearer ${this.token}` };
+  return new Promise((resolve, reject) => {
+  
+    this.http.get<any>( environment.apiUrl+'/api/balance/'+clientID, {headers})
+    .pipe
+    (
+      catchError(async(err) => {
+        if(err.status!=401){
+         // this.spinnerService.hide()
+this.logService.saveLog(err.message)
+var config=await this.logService.getConfiguration();
+if(config.value==true)
+
+        return throwError(null);   
+       }return null;     })
+    )
+    .subscribe((data:any)=>{
+      resolve(data)
+    }
+
+    ),
+        (  error: any) => {
+      reject(error);
+    }
+
+  })
+}
 }

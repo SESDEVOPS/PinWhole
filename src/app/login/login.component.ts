@@ -116,8 +116,9 @@ export class LoginComponent implements OnInit {
         } else if (res.isAuthSuccessful == true) {
           this.hasError = false;
           //console.log("res.type",res.type)
-          res.type = 'first';
+         // res.type = 'first';
           if (res.type == 'first') {
+            console.log("first",res.type)
             var u =
               'otpauth://totp/PinWhole:' +
               this.email +
@@ -133,6 +134,10 @@ export class LoginComponent implements OnInit {
             this.myQrCode = this.dataAfterSignSuccess.dataKey;
            
           } else if (res.type == 'last') {
+            console.log("last",res.type)
+            console.log("this.gCodeValue",this.gCodeValue)
+            this.showGoogleCodeDialog = true;
+            this.manageValidationCode(this.gCodeValue);
             // this.dialog
             //   .open(CodeComponent)
             //   .afterClosed()
@@ -152,6 +157,7 @@ export class LoginComponent implements OnInit {
   }
 
   add() {
+    //console.log("this.gCodeValue",this.gCodeValue)
     this.manageValidationCode(this.gCodeValue);
 
   }

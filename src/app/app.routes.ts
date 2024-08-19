@@ -6,31 +6,50 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { authGuard } from './Guards/auth.guard';
+import { ProfileComponent } from './profile/profile.component';
+import { WalletComponent } from './wallet/wallet.component';
+import { TransactionService } from './Services/transaction.service';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
-    canActivate: [authGuard],
+    
+    //canActivate: [authGuard],
     children: [
       { path: 'new', component: OrderItemsComponent, 
-       canActivate: [authGuard] 
+     //  canActivate: [authGuard] 
       },
       {
         path: 'pending',
         component: PendingOrderComponent,
-         canActivate: [authGuard],
+       //  canActivate: [authGuard],
       },
       {
         path: 'archive',
         component: ArchiveOrderComponent,
-        canActivate: [authGuard],
+     //   canActivate: [authGuard],
       },
       {
         path: 'history',
         component: OrderHistoryComponent,
-          canActivate: [authGuard],
+         // canActivate: [authGuard],
       },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+       //  canActivate: [authGuard],
+      },
+      {
+        path: 'wallet',
+        component: WalletComponent,
+       //  canActivate: [authGuard],
+      },
+      // {
+      //   path: 'transaction',
+      //   component: TransactionService,
+      //  //  canActivate: [authGuard],
+      // },
     ],
   },
 

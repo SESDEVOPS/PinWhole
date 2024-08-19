@@ -3,3 +3,30 @@
     
   }
   
+  .child-div {
+    background-color: white;
+    
+    height: 80%;  /* Ensure child div takes full height of the parent */
+    overflow: auto; /* Handle internal scrolling if content overflows */
+    box-sizing: border-box; /* Ensure padding and border are included in the height/width calculations */
+  }
+
+  .responsive-height {
+    height: 50vh;
+    background-color: aqua;
+  }
+  
+  @media (min-width: 768px) {
+    .responsive-height {
+        height: 75vh;
+        background-color: rgb(32, 153, 68);
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .responsive-height {
+        height: 100vh;
+        background-color: rgb(125, 128, 126);
+    }
+  }
+  

@@ -1,9 +1,17 @@
-<div class="container-fluid" style="height: 100%">
-  <div class="row align-items-start">
+
+<div class="container-fluid" >
+
+
+<i class="bi bi-list d-md-none" style="color: #e40d0d; font-size: large;" data-bs-toggle="collapse"
+data-bs-target="#navbarSupportedContentss"
+aria-expanded="false"
+aria-controls="navbarSupportedContentss"></i>
+ 
+  <div class="row align-items-start responsive-height">
     <div
-      class="collapse col-sm-3 col-md-3 p-2 d-md-block m-3 div-height"
-      id="navbarSupportedContent"
-      style="border-radius: 10px; background-color: #000; display: none"
+      class="collapse  col-sm-3 col-md-3 p-3 d-md-block m-3 child-div-sidebar"
+      id="navbarSupportedContentss"
+      style="border-radius: 10px; background-color: black; "
     >
       <img src="../assets/imgs/logo.png" class="mx-auto d-block" alt="..." />
       <hr />
@@ -33,73 +41,65 @@
           </div>
         </div>
 
-        <button
-          type="button"
-          class="btn btn-outline-danger"
-          style="padding: 8px; margin: 8px; color: white"
-        >
-          <i class="bi bi-plus"></i>
+        <!-- <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown button
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li *ngFor="let item of dropdownItems">
+              <a class="dropdown-item" href="#">{{ item }}</a>
+            </li>
+          </ul>
+        </div> -->
 
+        <div class="btn btn-outline-danger dropdown-toggle custom-dropdown-toggle" 
+        data-bs-toggle="dropdown" aria-expanded="false" 
+        style="padding: 8px; margin: 8px; color: white" 
+        role="group" aria-label="Button group with nested dropdown">
+          <i class="bi bi-plus"></i>
           Add Funds
 
-          <i class="bi bi-gear-fill" style="font-size: large"></i>
+  <div class="btn-group" role="group">
+    <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Dropdown
+    </button> -->
+    <i class="bi bi-gear-fill"    style="font-size: large"></i>
+    <i class="bi bi-cart-fill" style="font-size: large">
+      <span
+        class="position top-10 start-1 translate-middle badge rounded-pill bg-danger"
+      >
+        {{ draftItems }}
+        <span class="visually-hidden">unread messages</span>
+      </span>
+    </i>
 
-          <i class="bi bi-cart-fill" style="font-size: large">
-            <span
-              class="position top-10 start-1 translate-middle badge rounded-pill bg-danger"
-            >
-              {{ draftItems }}
-              <span class="visually-hidden">unread messages</span>
-            </span>
-          </i>
+    <ul class="dropdown-menu dropdown-menu-end" style="width: 250px;">
+      <li ><a class="dropdown-item" routerLink="/home/profile">Profile</a></li>
+      <li ><a class="dropdown-item" routerLink="/home/wallet">Wallet</a></li>
+      <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li>
+    </ul>
+  </div>
+</div>
+       
+          <!-- <p-toast />
+          <p-splitButton 
+              label="Save" 
+              (onClick)="save()" 
+              class="btn btn-outline-danger"
+             
+            
+              [model]="items" /> -->
+  
+        
+      <!-- style="padding: 8px; margin: 8px; color: white" -->
 
-          <!-- <svg
-              xmlns="http://www.w3.org/2000/svg"
-              style="margin-left: 5px"
-              width="20"
-              height="20"
-              fill="currentColor"
-              class="bi bi-cart-fill"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"
-              />
-<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              {{draftItems}}
-              <span class="visually-hidden">unread messages</span>
-            </span>
-              
-            </svg> -->
-          <!--  -->
-        </button>
+       
       </div>
 
       <hr class="border border-danger border-1 opacity-100" />
       <div>
         <ul class="nav flex-column">
-          <li class="nav-item">
-            <a
-              routerLink="/home/profile"
-              class="nav-link"
-              style="color: white; cursor: pointer; font-size: larger"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="currentColor"
-                class="bi bi-buildings-fill Linksvg"
-                viewBox="0 0 16 16"
-                style="margin-right: 5"
-              >
-                <path
-                  d="M15 .5a.5.5 0 0 0-.724-.447l-8 4A.5.5 0 0 0 6 4.5v3.14L.342 9.526A.5.5 0 0 0 0 10v5.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V14h1v1.5a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5zM2 11h1v1H2zm2 0h1v1H4zm-1 2v1H2v-1zm1 0h1v1H4zm9-10v1h-1V3zM8 5h1v1H8zm1 2v1H8V7zM8 9h1v1H8zm2 0h1v1h-1zm-1 2v1H8v-1zm1 0h1v1h-1zm3-2v1h-1V9zm-1 2h1v1h-1zm-2-4h1v1h-1zm3 0v1h-1V7zm-2-2v1h-1V5zm1 0h1v1h-1z"
-                />
-              </svg>
-              Business Profile</a
-            >
-          </li>
+         
 
           <li class="nav-item">
             <a
@@ -241,8 +241,9 @@
         </ul>
       </div>
     </div>
-    <div class="col-md-8 m-3 p-3 div-height">
+    <div class="col-md-8 m-3 p-3 responsive-height" style="background-color: white;">
       <router-outlet></router-outlet>
     </div>
   </div>
 </div>
+

@@ -18,13 +18,18 @@ export class SupplierService {
     this.clientID = localStorage.getItem('userID');
   }
 
-  getAllSuppliers(): Observable<Supplier[]> {
+  getAllSuppliers(): Promise<any> {
      //'83d2f7d9-6a59-4c7f-acf1-814842509647';
     const headers = { Authorization: `Bearer ${this.token}` };
-
-    return this.http.get<Supplier[]>(`${this.apiUrl}/api/supplier`, {
-      headers,
-    });
+    // return this.http.get<Supplier[]>(`${this.apiUrl}/api/supplier`, {
+    //   headers,
+    // });
+    return firstValueFrom(
+      this.http.get<any>(
+        `${this.apiUrl}/api/supplier`,
+        { headers }
+      )
+    );
   }
 
   // getIfCatalogAvaliable(sku:any,qty:any,price:any) : Observable<any> {

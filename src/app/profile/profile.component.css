@@ -1,0 +1,7 @@
+.custom-hr {
+    border: 0; /* Remove default border */
+    border-top: 2px dashed red; /* Set thickness and style (adjust color as needed) */
+    height: 0; /* Ensures the height of the <hr> is zero */
+    margin: 10px 0; /* Add vertical spacing around the <hr> */
+    width: 50%;
+  }

@@ -42,14 +42,14 @@ nav {
   grid-template-rows: min-content min-content min-content 1fr min-content;
   z-index: 99999999;
 }
-@media (max-width: 799.98px) {
+/* @media (max-width: 799.98px) {
   nav {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
   }
-}
+} */
 nav .logo {
   display: block;
   margin: auto;

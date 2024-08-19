@@ -78,6 +78,7 @@ export class OrderItemComponent implements OnInit {
   selRegion: any = null;
   selectedCurrency: any = null;
   clientID: any = '';
+  isDropdownDisabled: boolean = true;
   orderToProceed: OrderToProceed = {
     applicationUserId: '',
     categoryID: '',
@@ -131,6 +132,10 @@ export class OrderItemComponent implements OnInit {
   };
 
   regions: Region[] = [];
+  
+
+
+
   clientOffers: ClientOffer[] = [];
   allCurrencies: Currency[] = [];
   selectedCurrencies: Currency[] = [];
@@ -166,6 +171,8 @@ export class OrderItemComponent implements OnInit {
     Validators.required,
     customvalidator,
   ]);
+
+  
   currency = new FormControl(this.selectedCurrency, [
     Validators.required,
     customvalidator,
@@ -244,12 +251,15 @@ export class OrderItemComponent implements OnInit {
   }
 
   async getRegions() {
-    await this.helperservice.getRegions().subscribe({
-      next: (data: Region[]) => {
-        this.regions = data;
-      },
-      error: (c) => console.error('Error fetching regions', c),
-    });
+
+    this.regions = await this.helperservice.getRegions();
+   // console.log("this.regions",this.regions)
+    // await this.helperservice.getRegions().subscribe({
+    //   next: (data: Region[]) => {
+    //     this.regions = data;
+    //   },
+    //   error: (c) => console.error('Error fetching regions', c),
+  //  });
   }
 
   async getStatuses() {
@@ -262,12 +272,18 @@ export class OrderItemComponent implements OnInit {
   }
 
   async getAllSuppliers() {
-    await this.supplierService.getAllSuppliers().subscribe({
-      next: (data: Supplier[]) => {
-        this.supplier = data;
-      },
-      error: (c) => console.error('Error fetching suppliers', c),
-    });
+    this.supplier = await this.supplierService.getAllSuppliers();
+    if(this.supplier == undefined || this.supplier == null)
+    {
+      console.error('Error fetching suppliers');
+    }
+    // await this.supplierService.getAllSuppliers().subscribe({
+
+    //   next: (data: Supplier[]) => {
+    //     this.supplier = data;
+    //   },
+    //   error: (c) => console.error('Error fetching suppliers', c),
+    // });
   }
 
   getRegionsForSelectedItem(uniqueRegionsAsPerCode: number[]) {
@@ -278,31 +294,38 @@ export class OrderItemComponent implements OnInit {
   }
 
   async getCurrencies() {
-    await this.helperservice.getCurrencies().subscribe({
-      next: (data: Currency[]) => {
-        this.allCurrencies = data;
-        this.selectedCurrencies = data;
-      },
-      error: (c) => console.error('Error fetching currencies', c),
-    });
+    var data = await this.helperservice.getCurrencies();
+    this.allCurrencies = data;
+    this.selectedCurrencies = data;
+
+    // await this.helperservice.getCurrencies().subscribe({
+    //   next: (data: Currency[]) => {
+    //     this.allCurrencies = data;
+    //     this.selectedCurrencies = data;
+    //   },
+    //   error: (c) => console.error('Error fetching currencies', c),
+    // });
   }
 
   async getClientOffers() {
-    await this.clientService.getClientOffers().subscribe({
-      next: (data: ClientOffer[]) => {
-        this.clientOffers = data;
-      },
-      error: (c) => console.error('Error fetching currencies', c),
-    });
+    this.clientOffers = await this.clientService.getClientOffers();
+    // await this.clientService.getClientOffers().subscribe({
+    //   next: (data: ClientOffer[]) => {
+    //     this.clientOffers = data;
+    //   },
+    //   error: (c) => console.error('Error fetching currencies', c),
+    // });
   }
 
   async getClientBalance() {
-    await this.clientService.getClientBalance().subscribe({
-      next: (data: ClientBalanceDetails[]) => {
-        this.clientBalanceDetails = data;
-      },
-      error: (c) => console.error('Error fetching balance', c),
-    });
+    this.clientBalanceDetails =await this.clientService.getClientBalance();
+
+    // await this.clientService.getClientBalance().subscribe({
+    //   next: (data: ClientBalanceDetails[]) => {
+    //     this.clientBalanceDetails = data;
+    //   },
+    //   error: (c) => console.error('Error fetching balance', c),
+    // });
   }
 
   async getCodeDetails() {
@@ -326,10 +349,12 @@ export class OrderItemComponent implements OnInit {
     var uniqueCurrencies = this.allCurrencies.filter((item) =>
       uniqueCurrenciesAsPerCode.includes(+item.codeTypeID)
     );
+    uniqueCurrencies.sort((a, b) => +a.codePrice - +b.codePrice);
     this.allCurrencies = uniqueCurrencies;
   }
 
   onSelectedRegionChanged(event: any) {
+    
     var codeCurrencies: number[];
     this.selectedCode = undefined;
     this.selectedCurrency = null;
@@ -378,8 +403,11 @@ export class OrderItemComponent implements OnInit {
       this.discountedPrice =
         this.finalOrderToProcess.price -
         (this.finalOrderToProcess.price * this.clientOfferPercentage) / 100;
+        //console.log("discountedPrice",this.discountedPrice)
       this.showDiscountedPrice = true;
     } else {
+      //console.log("discountedPrice",this.discountedPrice)
+      //console.log("showDiscountedPrice",this.showDiscountedPrice)
       this.discountedPrice = this.finalOrderToProcess.price;
     }
 
@@ -393,6 +421,7 @@ export class OrderItemComponent implements OnInit {
   }
   purchaseItem(event: OrderItem): void {
     this.initializeFormControl();
+    this.loadingProgress = false;
     this.showOrderPopup = true;
     this.getItemDetails();
     this.resetOrder();
@@ -1271,4 +1300,9 @@ export class OrderItemComponent implements OnInit {
     this.showOrderCompleteDialog = false;
     this.resetOrder();
   }
+  hideConfirmPopup()
+  {
+    this.showOrderToProceedDialog = false
+  }
+  
 }

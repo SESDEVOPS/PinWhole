@@ -1,0 +1,23 @@
+.responsive-height {
+    height: 50vh;
+    
+  }
+  
+  @media (min-width: 768px) {
+    .responsive-height {
+        height: 75vh;
+       
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .responsive-height {
+        height: 100vh;
+        
+    }
+  }
+  
+  h5{
+    font-size: medium;
+    color: black !important; 
+  }

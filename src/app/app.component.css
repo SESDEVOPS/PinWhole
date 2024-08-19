@@ -1,7 +1,7 @@
-
+/* 
 .bg-image {
   background-image: url("/assets/imgs/bg.png");
-}
+} */
 
 .svgHover {
   color: red;
@@ -22,12 +22,34 @@
 
 .div-height {
   border-radius: 10px;
-  min-height: 600px;
-  max-height: 600px;
-  height: auto;
+  /* min-height: 500px;
+  max-height: 500px; */
+  /* height: auto; */
   background-color: white;
 }
 
+
+.responsive-height {
+  height: 50vh;
+  background-color: aqua;
+}
+
+@media (min-width: 768px) {
+  .responsive-height {
+      height: 75vh;
+      background-color: rgb(32, 153, 68);
+  }
+}
+
+@media (min-width: 992px) {
+  .responsive-height {
+      height: 100vh;
+      background-color: rgb(125, 128, 126);
+  }
+}
+
+
+/* 
 @media (max-width: 767.98px) {
   button {
     display: block !important;
@@ -37,32 +59,32 @@
     height: 800px !important;
     margin-bottom: 20px;
   }
-}
-
+} */
+/* 
 @media (max-width: 431px) {
     .div-height {
       min-height: 840px !important;
       margin-bottom: 20px;
       background-color: aqua;
     }
-  }
+  } */
   
 
-  @media (max-width: 1420px) {
+  /* @media (max-width: 1420px) {
     .div-height {
       min-height: 600px !important;
       margin-bottom: 20px !important;
      
     }
-  }
-  
+  } */
+/*   
   @media (max-width: 2000px) {
     .div-height {
       min-height: 800px !important;
       margin-bottom: 20px !important;
      
     }
-  }
+  } */
 
 
 
@@ -85,4 +107,29 @@
   } */
 
 
- 
+  .responsive-height {
+    height: 50vh;
+   
+}
+
+@media (min-width: 768px) {
+    .responsive-height {
+        height: 75vh;
+        
+    }
+}
+
+@media (min-width: 992px) {
+    .responsive-height {
+        height: 100vh;
+       
+    }
+}
+
+.child-div {
+  background-color: white;
+  flex: 1;
+  height: 100%;  /* Ensure child div takes full height of the parent */
+  overflow: auto; /* Handle internal scrolling if content overflows */
+  box-sizing: border-box; /* Ensure padding and border are included in the height/width calculations */
+}

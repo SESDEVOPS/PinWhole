@@ -31,24 +31,29 @@
 <div class="card flex justify-content-center" *ngIf="loading">
   <p-progressSpinner ariaLabel="loading" />
 </div>
-<div
+<div class="row child-div">
+  <div
   *ngIf="filteredItems.length > 0; else noItems"
-  class="row table table-responsive pt-2"
-  style="
-    max-height: 550px;
-    overflow-x: hidden;
+  class="row table table-responsive pt-2 "
+  
+>
+<!-- 
+style="
+   min-height: 550px;
+max-height: 550px;
+height: auto;
+    overflow: hidden;
     border-radius: 10px;
-    min-height: 550px;
-    height: auto;
+   
     background-color: white;
   "
->
+ -->
   <div
     class="col-md-4"
     *ngFor="let item of filteredItems"
     style="justify-content: center"
   >
-    <app-order-item [item]="item"></app-order-item>
+    <app-order-item [item]="item" ></app-order-item>
     <!-- <p-card
       header="{{ order.itemName }}"
       subheader="{{ order.itemName }}"
@@ -85,6 +90,8 @@
     </button>
   </div>
 </div>
+</div>
+
 
 <!-- <div class="card flex justify-content-center">
   <p-progressSpinner ariaLabel="loading" />

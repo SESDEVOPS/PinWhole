@@ -16,7 +16,7 @@ export class HelperService {
   apiUrl: any = '';
   token: any = '';
   refreshToken: any = '';
-  proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+  
 
   constructor(private http: HttpClient, private logService: LogService) {
     this.apiUrl = environment.apiUrl;
@@ -26,20 +26,55 @@ export class HelperService {
 
   
   private _subject = new Subject<any>();
-  getRegions(): Observable<Region[]> {
-    const headers = { Authorization: `Bearer ${this.token}` };
 
-    return this.http
-      .get<Region[]>(`${this.apiUrl}/api/region`, { headers })
-      .pipe(map((response) => response));
-  }
-  getCurrencies(): Observable<Currency[]> {
+
+  // getRegions(): Observable<Region[]> {
+  //   const headers = { Authorization: `Bearer ${this.token}` };
+
+  //   return this.http
+  //     .get<Region[]>(`${this.apiUrl}/api/region`, { headers })
+  //     .pipe(map((response) => response));
+  // }
+  
+  getRegions(): Promise<any> {
     const headers = { Authorization: `Bearer ${this.token}` };
-    return this.http
-      .get<Currency[]>(`${this.apiUrl}/api/codeType`, {
-        headers,
-      })
-      .pipe(map((response) => response));
+    var val = firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/api/region`, { headers }).pipe(
+        catchError(async (err) => {
+          this.logService.saveLog(err.message);
+          var config = await this.logService.getConfiguration();
+          return throwError(err);
+        })
+      )
+    );
+    return val;
+  }
+
+
+
+
+
+
+  getCurrencies(): Promise<any> {
+    // const headers = { Authorization: `Bearer ${this.token}` };
+    // return this.http
+    //   .get<Currency[]>(`${this.apiUrl}/api/codeType`, {
+    //     headers,
+    //   })
+    //   .pipe(map((response) => response));
+
+      const headers = { Authorization: `Bearer ${this.token}` };
+    var val = firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/api/codeType`, { headers }).pipe(
+        catchError(async (err) => {
+          this.logService.saveLog(err.message);
+          var config = await this.logService.getConfiguration();
+          return throwError(err);
+        })
+      )
+    );
+    console.log("val",val)
+    return val;
   }
 
   getStatuses(): Observable<Status[]> {
