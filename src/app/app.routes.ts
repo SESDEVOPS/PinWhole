@@ -13,37 +13,36 @@ import { TransactionService } from './Services/transaction.service';
 export const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
-    
-    //canActivate: [authGuard],
+    component: HomeComponent,    
+    canActivate: [authGuard],
     children: [
       { path: 'new', component: OrderItemsComponent, 
-     //  canActivate: [authGuard] 
+       canActivate: [authGuard] 
       },
       {
         path: 'pending',
         component: PendingOrderComponent,
-       //  canActivate: [authGuard],
+         canActivate: [authGuard],
       },
       {
         path: 'archive',
         component: ArchiveOrderComponent,
-     //   canActivate: [authGuard],
+        canActivate: [authGuard],
       },
       {
         path: 'history',
         component: OrderHistoryComponent,
-         // canActivate: [authGuard],
+          canActivate: [authGuard],
       },
       {
         path: 'profile',
         component: ProfileComponent,
-       //  canActivate: [authGuard],
+         canActivate: [authGuard],
       },
       {
         path: 'wallet',
         component: WalletComponent,
-       //  canActivate: [authGuard],
+         canActivate: [authGuard],
       },
       // {
       //   path: 'transaction',
