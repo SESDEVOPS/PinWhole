@@ -1,0 +1,48 @@
+* {
+    font-family:  Arial, Helvetica, sans-serif;
+    
+  }
+
+  .icon-hover {
+    color: #e07a4b; /* Change color on hover */
+    transform: scale(1.2); /* Scale the icon on hover */
+    transition: transform 0.2s, color 0.2s; /* Smooth transition */
+  }
+
+  .icon-hover:hover {
+    color: #007bff; /* Change color on hover */
+    transform: scale(1.2); /* Scale the icon on hover */
+    transition: transform 0.2s, color 0.2s; /* Smooth transition */
+  }
+  
+  
+  .child-div {
+    background-color: white;
+    
+    height: 80%;  /* Ensure child div takes full height of the parent */
+    overflow: auto; /* Handle internal scrolling if content overflows */
+    box-sizing: border-box; /* Ensure padding and border are included in the height/width calculations */
+  }
+
+  .responsive-height {
+    height: 50vh;
+    background-color: aqua;
+  }
+
+ 
+  
+  @media (min-width: 768px) {
+    .responsive-height {
+        height: 75vh;
+        background-color: rgb(32, 153, 68);
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .responsive-height {
+        height: 100vh;
+        background-color: rgb(125, 128, 126);
+    }
+  }
+
+  

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { LogService } from './log.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environments';
-import { catchError, throwError } from 'rxjs';
+import { catchError, firstValueFrom, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -202,7 +202,7 @@ getNextClientTransactionsLastMonth(clientID:any):Promise<any>{
   var timezoneOffset = d.getTimezoneOffset();
   return new Promise((resolve, reject) => {
   
-  this.http.put<any>( environment.apiUrl+'/api/transaction/getClientLastMonthTransactionLoadMore/'+timezoneOffset,clientID,{headers})
+  this.http.put<any>( environment.apiUrl+'/api/transaction/getClientLastMonthTransactionLoadMore/'+clientID+'/'+timezoneOffset,{headers})
   .pipe
   (
     catchError(async (err) => {
@@ -227,34 +227,56 @@ if(config.value==true)
 })
 }
 getClientTransactionPeriod(fromDate:any,toDate:any,user:any):Promise<any>{
-  const headers = { Authorization: `Bearer ${this.token}` };
-  var d = new Date()
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${this.token}`,
+  });
+
+ // fromDate = "08-08-2024";
+  //toDate="08-30-2024"
+   var d = new Date()
   var timezoneOffset = d.getTimezoneOffset();
-  return new Promise((resolve, reject) => {
+  return firstValueFrom(
+    this.http
+      .get<any>(`${environment.apiUrl}/api/transaction/getClientTransactions/${fromDate}/${toDate}/${user}/${timezoneOffset}`, {
+        headers,
+      })
+      .pipe(
+        catchError(async (err) => {
+          this.logService.saveLog(err.message);
+          var config = await this.logService.getConfiguration();
+          return throwError(err);
+        })
+      )
+  );
+ 
+//   const headers = { Authorization: `Bearer ${this.token}` };
+//   var d = new Date()
+//   var timezoneOffset = d.getTimezoneOffset();
+//   return new Promise((resolve, reject) => {
 
-  this.http.get<any>( environment.apiUrl+'/api/transaction/getClientTransactions/'+fromDate+'/'+toDate+'/'+user+'/'+timezoneOffset, {headers})
-  .pipe
-  (
-    catchError(async (err) => {
-      if(err.status!=401){
-       // this.spinnerService.hide()   
-this.logService.saveLog(err.message)
-var config=await this.logService.getConfiguration();
-if(config.value==true)
+//   this.http.get<any>( environment.apiUrl+'/api/transaction/getClientTransactions/'+fromDate+'/'+toDate+'/'+user+'/'+timezoneOffset, {headers})
+//   .pipe
+//   (
+//     catchError(async (err) => {
+//       if(err.status!=401){
+//        // this.spinnerService.hide()   
+// this.logService.saveLog(err.message)
+// var config=await this.logService.getConfiguration();
+// if(config.value==true)
 
-      return throwError(null);    
-     }return null   })
-  )
-  .subscribe((data:any)=>{
-    resolve(data)
-  }
+//       return throwError(null);    
+//      }return null   })
+//   )
+//   .subscribe((data:any)=>{
+//     resolve(data)
+//   }
 
-  ),
-      (  error: any) => {
-    reject(error);
-  }
+//   ),
+//       (  error: any) => {
+//     reject(error);
+//   }
     
-})
+// })
 }
 getNextClientTransactionsPeriod(fromDate:any,toDate:any,clientID:any):Promise<any>{
   const headers = { Authorization: `Bearer ${this.token}` };

@@ -12,7 +12,7 @@ import { environment } from "../../environments/environments";
       {
        
         return new Promise((resolve, reject) => {
-          this.http.get<any>( environment.apiUrl+'api/Log/config')
+          this.http.get<any>( environment.apiUrl+'/api/Log/config')
     
           .subscribe((data:any)=>{
             resolve(data)

@@ -10,6 +10,7 @@ import { firstValueFrom, Subject, throwError } from 'rxjs';
 import { Status } from '../Models/status';
 import { environment } from '../../environments/environments';
 import { LogService } from './log.service';
+import * as XLSX from 'xlsx';
 
 @Injectable({ providedIn: 'root' })
 export class HelperService {
@@ -457,6 +458,27 @@ export class HelperService {
   get events$() {
     return this._subject.asObservable();
   }
+
+  exportToExcel(data: any): void {
+    
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'transaction-history');
+    XLSX.writeFile(wb, 'transaction-history.xlsx');
+  }
+
+  // public exportAsExcelFile(json: any[], excelFileName: string): void {
+  //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+  //   const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+  //   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  
+  //   this.saveAsExcelFile(excelBuffer, excelFileName);
+  // }
+  // private saveAsExcelFile(buffer: any, fileName: string): void {
+  //    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+  //    fileSaver.saveAs(data, fileName  + EXCEL_EXTENSION);
+  
+  // }
 
   // editBlance(balance: any): Promise<any> {
   //   const token: string =

@@ -9,6 +9,7 @@ import { authGuard } from './Guards/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { TransactionService } from './Services/transaction.service';
+import { TransactionsComponent } from './transactions/transactions.component';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,7 @@ export const routes: Routes = [
       {
         path: 'archive',
         component: ArchiveOrderComponent,
-        canActivate: [authGuard],
+       canActivate: [authGuard],
       },
       {
         path: 'history',
@@ -44,11 +45,11 @@ export const routes: Routes = [
         component: WalletComponent,
          canActivate: [authGuard],
       },
-      // {
-      //   path: 'transaction',
-      //   component: TransactionService,
-      //  //  canActivate: [authGuard],
-      // },
+     {
+        path: 'transactions',
+        component: TransactionsComponent,
+        canActivate: [authGuard],
+      },
     ],
   },
 

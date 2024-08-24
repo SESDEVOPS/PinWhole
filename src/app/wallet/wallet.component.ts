@@ -189,7 +189,7 @@ async GetClientBalance()
 
   viewAllTransactions()
   {
-    //this.router.navigate(['transaction'])
+    this.router.navigate(['/home/transactions'])
   }
 
 }

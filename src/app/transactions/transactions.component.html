@@ -1,1 +1,115 @@
-<p>This page is under process!!</p>
+<div class="mb-3">
+  <div class="row alert alert-light">
+    <div class="col-md-4">
+      <div class="input-group flex-nowrap">
+        <!-- <input
+              type="text"
+              class="form-control"
+              placeholder="From Date"
+              aria-label="From Date#"
+              aria-describedby="addon-wrapping"
+              [(ngModel)]="fromDate"
+              bsDatepicker
+              
+            /> -->
+
+        <p-calendar
+          [(ngModel)]="from"
+          [placeholder]="'From Date'"
+          [iconDisplay]="'input'"
+          [showIcon]="true"
+          inputId="icondisplay"
+          dateFormat="mm-dd-yy"
+          (ngModelChange)="CalenderTouched($event)"
+        />
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <!-- <input
+            type="text"
+            class="form-control"
+            placeholder="To Date"
+            aria-label="To Date#"
+            aria-describedby="addon-wrapping"
+            [(ngModel)]="toDate"
+            
+          /> -->
+
+      <p-calendar
+        [(ngModel)]="to"        
+        [placeholder]="'To Date'"
+        [iconDisplay]="'input'"
+        [showIcon]="true"
+        inputId="icondisplay"
+      />
+    </div>
+    <div class="col-md-3 m-2">
+      <div class="input-group">
+        <button
+          type="button"
+          (click)="searchFilteredTransactions()"
+          class="btn btn-outline-primary"
+        >
+          <i class="bi bi-search"></i> Search
+        </button>
+      </div>
+
+      <!-- <button type="button"   
+             class="btn btn-outline-primary">
+              Search
+            </button> -->
+    </div>
+  </div>
+</div>
+
+<div class="table table-responsive pt-1 child-div" style="overflow-y: hidden">
+  <div
+    class="table table-responsive pt-1"
+    style="
+      max-height: 600px;
+      overflow: auto;
+      border-radius: 10px;
+      min-height: 600px;
+      height: auto;
+      background-color: white;
+    "
+  >
+    <div class="alert alert-light" style="font-weight: bold" role="alert">
+      Transaction History for <b>{{ clientName }}</b> <i class="bi bi-download text-danger  fs-5 icon-link"  style="cursor: pointer; background-color: #eaeaea;"  (click)="Export()" ></i> 
+
+    </div>
+    <table class="table table-responsive">
+      <thead
+        class="thead-light table-light"
+        style="height: 50px; vertical-align: middle"
+      >
+        <tr>
+          <th scope="col">Trans #</th>
+          <th scope="col">Bill #</th>
+          <th scope="col">Date</th>
+          <th scope="col">Transaction Type</th>
+          <th scope="col">Account</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Currency</th>
+          <th scope="col">Balance</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr
+          style="height: 50px; vertical-align: middle"
+          *ngFor="let transaction of allTransactions"
+        >
+          <th scope="row">{{ transaction.transactionNumber }}</th>
+          <td>{{ transaction.billNumber }}</td>
+          <td>{{ transaction.transactionDateTime }}</td>
+          <td>{{ transaction.transactionType }}</td>
+          <td>{{ transaction.transactionMethod }}</td>
+          <td>{{ transaction.totalPrice }}</td>
+          <td>{{ transaction.currency }}</td>
+          <td>{{ transaction.balance }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -64,12 +64,15 @@ async activate()
 }
   async signIn(res:any) {
     try {
+      console.log("res",res)
           this._isAuthenticated.next(true);
          this._role.next(res.role)
          localStorage.setItem("token",res.token)
          localStorage.setItem("refreshToken",res.refreshToken)
          localStorage.setItem("role",res.role)
          localStorage.setItem("userID",res.user.id)
+         localStorage.setItem("userName",res.user.loggedName)
+         
          localStorage.setItem("RefreshError","False")
            this.router.navigate(['head']); 
   this.token=res.token
