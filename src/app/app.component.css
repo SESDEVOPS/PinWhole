@@ -34,11 +34,15 @@
   background-color: aqua;
 }
 
+
+
+
 @media (min-width: 768px) {
   .responsive-height {
       height: 75vh;
       background-color: rgb(32, 153, 68);
   }
+
 }
 
 @media (min-width: 992px) {

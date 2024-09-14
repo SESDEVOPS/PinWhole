@@ -103,7 +103,7 @@ origTransactions: any;
 
  Export()
  {
-  this.helperService.exportToExcel(this.origTransactions);
+  this.helperService.exportToExcel(this.allTransactions);
  }
 
 }

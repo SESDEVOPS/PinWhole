@@ -11,13 +11,16 @@ import { Status } from '../Models/status';
 import { environment } from '../../environments/environments';
 import { LogService } from './log.service';
 import * as XLSX from 'xlsx';
+import * as fileSaver from 'file-saver';
+//import * as fileSaver from 'file-saver';
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Injectable({ providedIn: 'root' })
 export class HelperService {
   apiUrl: any = '';
   token: any = '';
   refreshToken: any = '';
-  
 
   constructor(private http: HttpClient, private logService: LogService) {
     this.apiUrl = environment.apiUrl;
@@ -25,9 +28,7 @@ export class HelperService {
     this.refreshToken = localStorage.getItem('refreshToken');
   }
 
-  
   private _subject = new Subject<any>();
-
 
   // getRegions(): Observable<Region[]> {
   //   const headers = { Authorization: `Bearer ${this.token}` };
@@ -36,7 +37,7 @@ export class HelperService {
   //     .get<Region[]>(`${this.apiUrl}/api/region`, { headers })
   //     .pipe(map((response) => response));
   // }
-  
+
   getRegions(): Promise<any> {
     const headers = { Authorization: `Bearer ${this.token}` };
     var val = firstValueFrom(
@@ -51,11 +52,6 @@ export class HelperService {
     return val;
   }
 
-
-
-
-
-
   getCurrencies(): Promise<any> {
     // const headers = { Authorization: `Bearer ${this.token}` };
     // return this.http
@@ -64,7 +60,7 @@ export class HelperService {
     //   })
     //   .pipe(map((response) => response));
 
-      const headers = { Authorization: `Bearer ${this.token}` };
+    const headers = { Authorization: `Bearer ${this.token}` };
     var val = firstValueFrom(
       this.http.get<any[]>(`${this.apiUrl}/api/codeType`, { headers }).pipe(
         catchError(async (err) => {
@@ -74,7 +70,7 @@ export class HelperService {
         })
       )
     );
-    console.log("val",val)
+    console.log('val', val);
     return val;
   }
 
@@ -90,33 +86,34 @@ export class HelperService {
   getCodeDetails(code: string): Promise<any> {
     const headers = { Authorization: `Bearer ${this.token}` };
     return firstValueFrom(
-      this.http.get<any>(`${this.apiUrl}/api/Code/${code}`, {
-        headers,
-      }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .get<any>(`${this.apiUrl}/api/Code/${code}`, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
   getAllNewCodeValueByCodeId(codeID: any): Promise<any> {
     const headers = { Authorization: `Bearer ${this.token}` };
     var val = firstValueFrom(
-      this.http.get<any>(
-        `${this.apiUrl}/api/codeValue/getAllNewByCode/${codeID}`,
-        {
+      this.http
+        .get<any>(`${this.apiUrl}/api/codeValue/getAllNewByCode/${codeID}`, {
           headers,
-        }
-      ).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
 
     return val;
@@ -126,15 +123,17 @@ export class HelperService {
     const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.get<any>(`${this.apiUrl}/api/codeType/${codeTypeId}`, {
-        headers,
-      }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .get<any>(`${this.apiUrl}/api/codeType/${codeTypeId}`, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
@@ -142,13 +141,15 @@ export class HelperService {
     const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.get<any>(`${this.apiUrl}/api/Status/${statusName}`, { headers }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
-        })
-      )
+      this.http
+        .get<any>(`${this.apiUrl}/api/Status/${statusName}`, { headers })
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
@@ -159,16 +160,18 @@ export class HelperService {
     const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.get<any>(
-        `${this.apiUrl}/api/balance/getBalance/${clientID}/${currencyName}`,
-        { headers }
-      ).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return [];
-        })
-      )
+      this.http
+        .get<any>(
+          `${this.apiUrl}/api/balance/getBalance/${clientID}/${currencyName}`,
+          { headers }
+        )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return [];
+          })
+        )
     );
   }
 
@@ -176,15 +179,17 @@ export class HelperService {
     const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.get<any>(`${this.apiUrl}/api/exchangeRate/${status}`, {
-        headers,
-      }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .get<any>(`${this.apiUrl}/api/exchangeRate/${status}`, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
@@ -192,15 +197,17 @@ export class HelperService {
     const headers = { Authorization: `Bearer ${this.token}` };
 
     return firstValueFrom(
-      this.http.put<any>(`${this.apiUrl}/api/balance/edit`, balance, {
-        headers,
-      }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .put<any>(`${this.apiUrl}/api/balance/edit`, balance, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
@@ -236,20 +243,20 @@ export class HelperService {
       Price: price,
     };
 
-  const headers = { Authorization: `Bearer ${this.token}` };
+    const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.post<any>(
-        `${this.apiUrl}/api/orders/currecyRate`,
-        currenyConversion,
-        { headers }
-      ).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .post<any>(`${this.apiUrl}/api/orders/currecyRate`, currenyConversion, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
@@ -302,40 +309,85 @@ export class HelperService {
   }
 
   addTransaction(code: any): Promise<any> {
-  const headers = { Authorization: `Bearer ${this.token}` };
+    const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.post<any>(`${this.apiUrl}/api/transaction/create`, code, {
-        headers,
-      }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .post<any>(`${this.apiUrl}/api/transaction/create`, code, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
   getIfCatalogAvaliable(sku: any, qty: any, price: any): Promise<any> {
-   const headers = { Authorization: `Bearer ${this.token}` };
+    const headers = { Authorization: `Bearer ${this.token}` };
     // Simulating an async operation (like an HTTP request)
     return firstValueFrom(
-      this.http.post<any>(
-        `${this.apiUrl}/api/transaction/create/${sku}/${qty}/${price}`,
+      this.http
+        .post<any>(
+          `${this.apiUrl}/api/transaction/create/${sku}/${qty}/${price}`,
 
-        { headers }
-      ).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
-        })
-      )
+          { headers }
+        )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
   }
 
+  getOrderCodeValueById(orderId: any): Promise<any> {
+    const headers = { Authorization: `Bearer ${this.token}` };
+    // Simulating an async operation (like an HTTP request)
+    return firstValueFrom(
+      this.http
+        .get<any>(
+          `${this.apiUrl}/api/orders/getOrderCodeValueById/${orderId}`,
+          { headers }
+        )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
+    );
+  }
+
+  async GetOrderValues(orderID: any) {
+    var codeValues: any = [];
+    var order: any;
+    await this.getOrderCodeValueById(orderID).then((codes: any) => {
+      codes.forEach((c: any) => {
+        codeValues.push({
+          'Item Name': c.itemName,
+          Region: c.name,
+          Price: c.price,
+          'Code Value': c.code,
+          'Serial Number': c.serial_Number,
+        });
+      });
+      return codeValues;
+    });
+    return codeValues;
+  }
+
   createItem(order: FormData): Promise<any> {
+
+    console.log("order-order", order)
+
+
     const headerDict = {
       Authorization: `Bearer ${this.token}`,
     };
@@ -355,15 +407,17 @@ export class HelperService {
     // };
 
     return firstValueFrom(
-      this.http.post<any>(`${this.apiUrl}/api/orders/create`, order, {
-        headers,
-      }).pipe(
-        catchError(async (err) => {
-          this.logService.saveLog(err.message);
-          var config = await this.logService.getConfiguration();
-          return throwError(err);
+      this.http
+        .post<any>(`${this.apiUrl}/api/orders/create`, order, {
+          headers,
         })
-      )
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
     );
 
     // return new Promise((resolve, reject) => {
@@ -390,7 +444,7 @@ export class HelperService {
   }
 
   updateOrder(order: FormData): Promise<any> {
-     const headers = new HttpHeaders({
+    const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
     });
 
@@ -460,24 +514,126 @@ export class HelperService {
   }
 
   exportToExcel(data: any): void {
-    
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(data);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'transaction-history');
     XLSX.writeFile(wb, 'transaction-history.xlsx');
   }
 
+  send(email: any, message: any, subject: any) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+
+    var body = {
+      To: email,
+      Body: message,
+      Subject: subject,
+    };
+    return new Promise((resolve, reject) => {
+      //`${this.apiUrl}/api/orders/edit`, order, { headers }
+      this.http
+        .post<any>(`${this.apiUrl}/api/email/sendMail`, body, { headers })
+
+        .subscribe((data: any) => {
+          resolve(data);
+        }),
+        (error: any) => {
+          reject(error);
+        };
+    });
+  }
+
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+  
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+     const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+     fileSaver.saveAs(data, fileName  + EXCEL_EXTENSION);
+  
+  }
+
+  getCodesByItem(itemId:any):Promise<any[]>{
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+
+    return new Promise((resolve, reject) => {
+ 
+      this.http.get<any[]>( `${this.apiUrl}/api/code/getByItemID/${itemId}`, { headers })
+      .pipe
+      (
+        catchError(async(err) => {
+          if(err.status!=401){
+            //this.spinnerService.hide()     
+  this.logService.saveLog(err.message)
+  var config=await this.logService.getConfiguration();
+  if(config.value==true)
+
+          return throwError(null);    
+              }return null;          })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+
+
+    })
+
+  }
+  
+
+  getRegionById(regionId:any):Promise<any>{
+
+    return new Promise((resolve, reject) => {
+
+      this.http.get<any>( `${this.apiUrl}/api/region/${regionId}`)
+      .pipe
+      (
+        catchError(async(err) => {
+          if(err.status!=401){
+            //this.spinnerService.hide()       
+  this.logService.saveLog(err.message)
+  var config=await this.logService.getConfiguration();
+  if(config.value==true)
+
+          return throwError(null);   
+            }return null        })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+   
+    })
+  }
+
   // public exportAsExcelFile(json: any[], excelFileName: string): void {
   //   const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
   //   const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
   //   const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-  
+
   //   this.saveAsExcelFile(excelBuffer, excelFileName);
   // }
   // private saveAsExcelFile(buffer: any, fileName: string): void {
   //    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
   //    fileSaver.saveAs(data, fileName  + EXCEL_EXTENSION);
-  
+
   // }
 
   // editBlance(balance: any): Promise<any> {

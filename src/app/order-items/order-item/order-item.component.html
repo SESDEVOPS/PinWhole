@@ -25,8 +25,8 @@
   </ng-template>
 </p-card> -->
 
-<div class="card text-bg-light " 
-style="width: 15rem; height: 15rem;" (click)="purchaseItem(item)" >
+<div class="card text-bg-light MainContentDisplay" 
+ (click)="purchaseItem(item)" >
   @if (item.image == null) {
   <img
     src="../../assets/imgs/noImage.jpg"
@@ -120,32 +120,33 @@ style="width: 15rem; height: 15rem;" (click)="purchaseItem(item)" >
       <table class="table table-responsive">
         <thead>
           <tr >
-            <th scope="col" style="text-align: center;">Quantity</th>
+            <th scope="col" style="text-align: left;">Quantity</th>
             <th scope="col" style="text-align: center;">Price</th>
             <th scope="col"  style="text-align: center;">Total</th>
           </tr>
         </thead>
         <tbody>
           <tr  class="boreder-0">
-            <td  style="text-align: center;">
+            <td  style="text-align: left;">
               <p-floatLabel>
                 <input
                   [style]="{width: '50%'}"
                   pInputText
                   id="quantity"
+                  type="number"
                   formControlName="quantity"
                   [(ngModel)]="finalOrderToProcess.qty"
                   (ngModelChange)="calculateTotalPrice()"
                 />
               </p-floatLabel>
             </td>
-            <td   style="text-align: center; ">
+            <td   style="text-align: center; vertical-align: middle; ">
               {{ discountedPrice }}
               <del style="color: red" *ngIf="showDiscountedPrice" class="p-3">{{
                 finalOrderToProcess.price
               }}</del>
             </td>
-            <td style="text-align: center;">{{ finalOrderToProcess.total }}</td>
+            <td style="text-align: center; vertical-align: middle;">{{ finalOrderToProcess.total }}</td>
           </tr>
         </tbody>
       </table>

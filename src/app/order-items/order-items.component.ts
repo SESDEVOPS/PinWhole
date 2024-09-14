@@ -122,7 +122,7 @@ export class OrderItemsComponent implements OnInit {
       }
     }
   }
-
+  showSearchClear = false;
   async searchItems() {
     // console.log('event', this.searchFilter);
     // this.itemsForPurchase = this.itemsForPurchase.filter(
@@ -132,16 +132,23 @@ export class OrderItemsComponent implements OnInit {
     // console.log('event', this.itemsForPurchase);
 //debugger;
     if (this.searchFilter === '') {
-      console.log("hehe")
-      console.log("hehethis.itemsForPurchase",this.itemsForPurchase)
+      //console.log("hehe")
+      //console.log("hehethis.itemsForPurchase",this.itemsForPurchase)
       this.filteredItems = this.itemsForPurchase;
+      this.showSearchClear = false;
     } else {
       this.applyFilterValueBtn();
+      this.showSearchClear = true;
+
     }
 
     //this.itemsForPurchase = this.filterItemsForPurchase;
   }
 
+  clearSearchItems(){
+    this.searchFilter = '';
+    this.searchItems();
+  }
   async applyFilterValueBtn() {
     await this.itemService
       .getItemContainLettters(this.searchFilter)

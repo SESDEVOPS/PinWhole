@@ -3,3 +3,21 @@ h5{
     font-size: medium;
     color: black !important; 
   }
+
+  .MainContentDisplay{
+    width: 10rem !important;    
+    height: 15rem;
+   
+    
+  }
+
+  @media (max-width: 550px) {
+    .MainContentDisplay{   
+      
+      width: 16rem !important;    
+      height: 15rem;
+    
+      
+    }
+  
+  }

@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { TransactionService } from './Services/transaction.service';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { BillComponent } from './bill/bill.component';
 
 export const routes: Routes = [
   {
@@ -48,6 +49,12 @@ export const routes: Routes = [
      {
         path: 'transactions',
         component: TransactionsComponent,
+        canActivate: [authGuard],
+      },
+
+      {
+        path: 'bill/:id',
+        component: BillComponent,
         canActivate: [authGuard],
       },
     ],

@@ -1,66 +1,151 @@
 <div class="mb-3">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-5">
-          <div class="input-group flex-nowrap">
-            <span class="input-group-text" id="addon-wrapping">
-              <i class="bi bi-search"></i>
-            </span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search Bill Number"
-              aria-label="Search Bill#"
-              aria-describedby="addon-wrapping"
-              [(ngModel)]="searchFilter"
-              (keyup)="searchItems()"
-            />
-            <span class="input-group-text" id="addon-wrapping">
-              <button type="button"   
-              (click)="searchItems()" class="btn btn-outline-primary">
-                Search
-              </button>
-            </span>
-          </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4 col-xs-4 col-12">
+        <div class="input-group flex-nowrap">
+          <span class="input-group-text" id="addon-wrapping">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search Bill Number"
+            aria-label="Search Bill#"
+            aria-describedby="addon-wrapping"
+            [(ngModel)]="searchFilter"
+            (keyup)="searchItems()"
+          />
+          <span class="input-group-text" id="addon-wrapping">
+            <button
+              type="button"
+              (click)="searchItems()"
+              class="btn btn-outline-primary"
+              *ngIf="!showSearchClear"
+            >
+              Search
+            </button>
+            <button type="button" *ngIf="showSearchClear" (click)="clearSearchItems()" class="btn btn-outline-danger">
+              X
+            </button>
+          </span>
         </div>
       </div>
     </div>
   </div>
-
-  <div class="table table-responsive pt-1 child-div" style="overflow-y: hidden; ">
-
-<div class="table table-responsive pt-1" 
-style="max-height:600px; overflow:auto; border-radius: 10px; min-height: 600px; height: auto;  background-color: white;">
-<div class="alert alert-light" style="font-weight: bold" role="alert">
-Order Archived
 </div>
-<table class="table table-responsive" >
-  <thead
-    class="thead-light table-light"
-    style="height: 50px; vertical-align: middle"
+<div class="spinner-border" role="status" *ngIf="showTransactionInProcess">
+  <span class="visually-hidden">Loading...</span>
+</div>
+<div class="table table-responsive pt-1 child-div" style="overflow-y: hidden">
+  <div
+    class="table table-responsive pt-1"
+    style="
+      max-height: 600px;
+      overflow: auto;
+      border-radius: 10px;
+      min-height: 600px;
+      height: auto;
+      background-color: white;
+    "
   >
-    <tr>
-      <th scope="col">Bill S/N</th>
-      <th scope="col">Item</th>
-      <th scope="col">Status</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Total Price</th>
-      <th scope="col">Bill Date</th>
-    
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <tr style="height: 50px; vertical-align: middle" *ngFor="let order of filteredOrders" >
-      <th scope="row">{{order.billNumber}}</th>
-      <td>{{order.itemName}}</td>
-      <td>{{order.statusName}}</td>
-      <td>{{order.quantity}}</td>
-      <th scope="row">{{(this.order.codeOrderPrice).toFixed(2)}} {{this.order.orderCurrency}}</th>
-      <td>{{order.orderDateTime}}</td>
-   
-    </tr>
-
-  
-  </tbody></table>
-
+    <div class="alert alert-light" style="font-weight: bold" role="alert">
+      Order Archived
+    </div>
+    <table class="table table-responsive">
+      <thead
+        class="thead-light table-light"
+        style="height: 50px; vertical-align: middle"
+      >
+        <tr>
+          <th scope="col">Bill S/N</th>
+          <th scope="col">Item</th>
+          <th scope="col">Status</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Bill Date</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr
+          style="height: 50px; vertical-align: middle"
+          *ngFor="let order of filteredOrders"
+        >
+          <th scope="row">{{ order.billNumber }}</th>
+          <td>{{ order.itemName }}</td>
+          <td>{{ order.statusName }}</td>
+          <td>{{ order.quantity }}</td>
+          <th scope="row">
+            {{ this.order.codeOrderPrice.toFixed(2) }}
+            {{ this.order.orderCurrency }}
+          </th>
+          <td>{{ order.orderDateTime }}</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" (click)="AddToHistory(order.orderID)" 
+              class="btn btn-outline-danger">
+                <i class="bi bi-plus"></i>
+                History
+              </button>
+            </div>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" (click)="Delete(order.orderID)"  class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i>
+                Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<p-dialog 
+    header="Order Deleted" 
+    [modal]="true"
+    [closable]="false"
+    [(visible)]="showDeleteComplete" 
+    [style]="{ width: '20rem', height: '15em', padding: '1px' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    >
+    <h5>
+      Your order has been deleted successfully.
+    </h5>
+   
+    <div class="d-flex justify-content-center mt-3">
+      <button style="background-color: rgb(169, 30, 30); color:white"  
+        (click)="viewArchiveOrder()" 
+        > Proceed </button>
+      <!-- <button color="primary" style="background-color: rgb(4, 0, 128);color:white"  
+      (click)="continueShopping()"> Continue Shopping</button> -->
+    
+
+    </div>
+</p-dialog>
+
+<p-dialog 
+    header="History" 
+    [modal]="true"
+    [closable]="false"
+    [(visible)]="showHistoryComplete" 
+    [style]="{ width: '20rem', height: '15em', padding: '1px' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    >
+    <h5>
+      Your order has been set to history successfully.
+    </h5>
+   
+    <div class="d-flex justify-content-center mt-3">
+      <button style="background-color: rgb(169, 30, 30); color:white"  
+        (click)="viewArchiveOrder()" 
+        > Proceed </button>
+      <!-- <button color="primary" style="background-color: rgb(4, 0, 128);color:white"  
+      (click)="continueShopping()"> Continue Shopping</button> -->
+    
+
+    </div>
+</p-dialog>

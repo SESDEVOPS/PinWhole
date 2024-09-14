@@ -1,17 +1,263 @@
 
 <div class="container-fluid" >
+ 
+
+<i class="bi bi-list d-md-none float-end"
+style="color: #e40d0d; font-size:x-large; 
+font-weight: bolder;" 
+data-bs-toggle="offcanvas" 
+data-bs-target="#navbarSupportedContentss" aria-controls="navbarSupportedContentss"
+></i>
 
 
-<i class="bi bi-list d-md-none" style="color: #e40d0d; font-size: large;" data-bs-toggle="collapse"
-data-bs-target="#navbarSupportedContentss"
-aria-expanded="false"
-aria-controls="navbarSupportedContentss"></i>
+
+  <!-- <i class="bi bi-list d-md-none" 
+  style="color: #e40d0d; font-size:x-large; 
+  font-weight: bolder;" 
+  data-bs-toggle="collapse"
+  data-bs-target="#navbarSupportedContentss"
+  aria-expanded="false"
+  aria-controls="navbarSupportedContentss"></i> -->
  
   <div class="row align-items-start responsive-height">
     <div
-      class="collapse  col-sm-3 col-md-3 p-3 d-md-block m-3 child-div-sidebar"
+    class="offcanvas offcanvas-start col-12 col-sm-auto col-md-auto p-3 d-md-block m-3 child-div-sidebar sidebar"
+    id="navbarSupportedContentss"
+    
+  >
+    <img src="../assets/imgs/logo.png" class="mx-auto d-block" alt="..." />
+    <hr />
+    <div class="d-flex flex-column mb-2">
+      <div class="p-2">
+        <div class="d-flex flex-row mb-3">
+          <div class="p-2">
+            <img
+              src="../assets/imgs/noImage.jpg"
+              width="50"
+              height="50"
+              class="rounded mx-auto d-block img-responsive"
+              alt="..."
+            />
+          </div>
+          <div class="p-2">
+            <h6 style="color: white">{{ userData?.loggedName }}</h6>
+
+            <h5 style="color: white">
+              <i
+                class="bi bi-currency-dollar"
+                style="color: #72bd39; font-size: larger"
+              ></i>
+              {{ balance }}
+            </h5>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <li *ngFor="let item of dropdownItems">
+            <a class="dropdown-item" href="#">{{ item }}</a>
+          </li>
+        </ul>
+      </div> -->
+
+      <div class="btn btn-outline-danger dropdown-toggle custom-dropdown-toggle" 
+      data-bs-toggle="dropdown" aria-expanded="false" 
+      style="padding: 8px; margin: 8px; color: white" 
+      role="group" aria-label="Button group with nested dropdown">
+        <i class="bi bi-plus"></i>
+        Add Funds
+
+<div class="btn-group" role="group">
+  <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    Dropdown
+  </button> -->
+  <i class="bi bi-gear-fill"    style="font-size: large"></i>
+  <i class="bi bi-cart-fill" style="font-size: large">
+    <span
+      class="position top-10 start-1 translate-middle badge rounded-pill bg-danger"
+    >
+      {{ draftItems }}
+      <span class="visually-hidden">unread messages</span>
+    </span>
+  </i>
+
+  <ul class="dropdown-menu dropdown-menu-end" style="width: 200px;">
+    <li ><a class="dropdown-item" routerLink="/home/profile">Profile</a></li>
+    <li ><a class="dropdown-item" routerLink="/home/wallet">Wallet</a></li>
+    <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li>
+  </ul>
+</div>
+</div>
+     
+        <!-- <p-toast />
+        <p-splitButton 
+            label="Save" 
+            (onClick)="save()" 
+            class="btn btn-outline-danger"
+           
+          
+            [model]="items" /> -->
+
+      
+    <!-- style="padding: 8px; margin: 8px; color: white" -->
+
+     
+    </div>
+
+    <hr class="border border-danger border-1 opacity-100" />
+    <div>
+      <ul class="nav flex-column">
+       
+
+        <li class="nav-item">
+          <a
+            routerLink="/home/new"
+            routerLinkActive="active"
+            class="nav-link"
+            style="color: white; cursor: pointer; font-size: larger"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-cart-check Linksvg"
+              viewBox="0 0 16 16"
+              style="margin-right: 5"
+            >
+              <path
+                d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"
+              />
+              <path
+                d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"
+              />
+            </svg>
+
+            New Order</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/home/pending"
+            routerLinkActive="active"
+            style="color: white; cursor: pointer; font-size: larger"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-building-exclamation Linksvg"
+              viewBox="0 0 16 16"
+              style="margin-right: 5"
+            >
+              <path
+                d="M2 1a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6.5a.5.5 0 0 1-1 0V1H3v14h3v-2.5a.5.5 0 0 1 .5-.5H8v4H3a1 1 0 0 1-1-1z"
+              />
+              <path
+                d="M4.5 2a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-6 3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm3 0a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm8.5 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"
+              />
+            </svg>
+            Order Pending</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/home/archive"
+            routerLinkActive="active"
+            style="color: white; cursor: pointer; font-size: larger"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              style="margin-right: 5"
+              class="bi bi-dash-square Linksvg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"
+              />
+              <path
+                d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"
+              />
+            </svg>
+
+            Order Archive</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            style="color: white; cursor: pointer; font-size: larger"
+            routerLink="/home/history"
+            routerLinkActive="active"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-clock-history Linksvg"
+              viewBox="0 0 16 16"
+              style="margin-right: 5"
+            >
+              <path
+                d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022zm2.004.45a7 7 0 0 0-.985-.299l.219-.976q.576.129 1.126.342zm1.37.71a7 7 0 0 0-.439-.27l.493-.87a8 8 0 0 1 .979.654l-.615.789a7 7 0 0 0-.418-.302zm1.834 1.79a7 7 0 0 0-.653-.796l.724-.69q.406.429.747.91zm.744 1.352a7 7 0 0 0-.214-.468l.893-.45a8 8 0 0 1 .45 1.088l-.95.313a7 7 0 0 0-.179-.483m.53 2.507a7 7 0 0 0-.1-1.025l.985-.17q.1.58.116 1.17zm-.131 1.538q.05-.254.081-.51l.993.123a8 8 0 0 1-.23 1.155l-.964-.267q.069-.247.12-.501m-.952 2.379q.276-.436.486-.908l.914.405q-.24.54-.555 1.038zm-.964 1.205q.183-.183.35-.378l.758.653a8 8 0 0 1-.401.432z"
+              />
+              <path
+                d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0z"
+              />
+              <path
+                d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5"
+              />
+            </svg>
+            Order History</a
+          >
+        </li>
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            style="color: white; cursor: pointer; font-size: larger"             
+            routerLinkActive="active"
+            (click)="logout()"
+          >
+
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="25"
+              height="25"
+              fill="currentColor"
+              class="bi bi-person-fill Linksvg"
+              viewBox="0 0 16 16"
+              style="margin-right: 5"
+            >
+              <path
+                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
+              />
+            </svg>
+            Logout</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+    <div
+      class="collapse col-12 col-sm-auto col-md-auto p-3 d-md-block m-3 child-div-sidebar sidebar"
       id="navbarSupportedContentss"
-      style="border-radius: 10px; background-color: black; "
+      
     >
       <img src="../assets/imgs/logo.png" class="mx-auto d-block" alt="..." />
       <hr />
@@ -73,7 +319,7 @@ aria-controls="navbarSupportedContentss"></i>
       </span>
     </i>
 
-    <ul class="dropdown-menu dropdown-menu-end" style="width: 250px;">
+    <ul class="dropdown-menu dropdown-menu-end" style="width: 200px;">
       <li ><a class="dropdown-item" routerLink="/home/profile">Profile</a></li>
       <li ><a class="dropdown-item" routerLink="/home/wallet">Wallet</a></li>
       <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li>
@@ -241,9 +487,10 @@ aria-controls="navbarSupportedContentss"></i>
         </ul>
       </div>
     </div>
-    <div class="col-md-8 m-3 p-3 responsive-height" style="background-color: white;">
+    <div class="col-md-9  p-3 m-3 responsive-height" style="background-color: white;">
       <router-outlet></router-outlet>
     </div>
   </div>
+
 </div>
 

@@ -34,7 +34,7 @@ import { environment } from "../../environments/environments";
             errMessage:message
         }
        return new Promise((resolve, reject) => {
-         this.http.post<any>( environment.apiUrl+'api/Log/saveLog',log)
+         this.http.post<any>( environment.apiUrl+'/api/Log/saveLog',log)
    
          .subscribe((data:any)=>{
            resolve(data)

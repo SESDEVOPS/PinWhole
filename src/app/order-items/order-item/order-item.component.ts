@@ -21,6 +21,7 @@ import { Region } from '../../Models/region';
 import { Currency } from '../../Models/denomination';
 import { FinalOrderToProcess, initialOrder } from '../../Models/finalorder';
 import { ChangeDetectionStrategy } from '@angular/core'; // import
+
 import {
   FormControl,
   FormGroup,
@@ -208,7 +209,7 @@ export class OrderItemComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getRegions();
-    this.getCurrencies();
+   //this.getCurrencies();
     this.getClientOffers();
     this.getClientBalance();
     this.getAllSuppliers();
@@ -230,7 +231,7 @@ export class OrderItemComponent implements OnInit {
   async GetUserDetails() {
     await this.userService.GetCurrenctUser().then((data) => {
       this.userData = data;
-      //console.log("this.userData",this.userData)
+      ////console.log("this.userData",this.userData)
     });
   }
 
@@ -253,7 +254,7 @@ export class OrderItemComponent implements OnInit {
   async getRegions() {
 
     this.regions = await this.helperservice.getRegions();
-   // console.log("this.regions",this.regions)
+    ////console.log("this.regions",this.regions)
     // await this.helperservice.getRegions().subscribe({
     //   next: (data: Region[]) => {
     //     this.regions = data;
@@ -291,11 +292,13 @@ export class OrderItemComponent implements OnInit {
       uniqueRegionsAsPerCode.includes(item.regionID)
     );
     this.regions = uniqueRegions;
+
+    this.getCurrencies();
   }
 
   async getCurrencies() {
     var data = await this.helperservice.getCurrencies();
-    this.allCurrencies = data;
+   // this.allCurrencies = data;
     this.selectedCurrencies = data;
 
     // await this.helperservice.getCurrencies().subscribe({
@@ -337,7 +340,7 @@ export class OrderItemComponent implements OnInit {
     //   .getCodeDetails(this.selectedCode?.toString() ?? '')
     //   .subscribe({
     //     next: (data: any) => {
-    //       console.log('data', data);
+    //       //console.log('data', data);
     //       this.codeDetails = data;
     //     },
     //     error: (c) => console.error('Error fetching code details', c),
@@ -403,11 +406,11 @@ export class OrderItemComponent implements OnInit {
       this.discountedPrice =
         this.finalOrderToProcess.price -
         (this.finalOrderToProcess.price * this.clientOfferPercentage) / 100;
-        //console.log("discountedPrice",this.discountedPrice)
+        ////console.log("discountedPrice",this.discountedPrice)
       this.showDiscountedPrice = true;
     } else {
-      //console.log("discountedPrice",this.discountedPrice)
-      //console.log("showDiscountedPrice",this.showDiscountedPrice)
+      ////console.log("discountedPrice",this.discountedPrice)
+      ////console.log("showDiscountedPrice",this.showDiscountedPrice)
       this.discountedPrice = this.finalOrderToProcess.price;
     }
 
@@ -446,6 +449,7 @@ export class OrderItemComponent implements OnInit {
     this.discountedPrice = 0;
     this.selectedCode = undefined;
     this.selectedRegion = 0;
+    this.allCurrencies = [];
     this.selectedCodeTypeID = 0;
     this.showDiscountedPrice = false;
   }
@@ -520,7 +524,7 @@ export class OrderItemComponent implements OnInit {
     this.order.codeID = this.selectedCode?.toString() ?? '';
     this.order.statusID = '1';
     this.order.categoryID = this.order.categoryID?.toString() ?? '';
-    this.order.discount = this.clientOfferPercentage?.toString() ?? '';
+    this.order.discount = this.clientOfferPercentage;
 
     var drsfStatusID: string = '';
     var draftStatus = await this.statuses.find(
@@ -543,20 +547,21 @@ export class OrderItemComponent implements OnInit {
         this.selectedSupplier.supplierName == 'Mintroute')
     ) {
       //onsole.log('formData_final1', formData);
-      ////debugger;
+      //////debugger;
       if (this.finalOrderToProcess.qty <= this.codeDetails.maxCodeCount) {
-        ////debugger;
+        //////debugger;
 
         this.order.statusID = drsfStatusID;
 
         this.order.categoryID = this.item.categoryID?.toString() ?? '';
         ////////////////////////
+       //console.log('text-order', this.order);
         formData.append('text', JSON.stringify(this.order));
 
         await this.helperservice
           .createItem(formData)
           .then(async (data: any) => {
-            //console.log("datafromCreateItem",data);
+            ////console.log("datafromCreateItem",data);
             this.createdItem = data;
             this.processedOrder = data;
             var draftOrderCount: any = 0;
@@ -582,7 +587,7 @@ export class OrderItemComponent implements OnInit {
   codePrice: any;
   Price: any;
   getCode = async () => {
-    //  //debugger;
+    //debugger;
     if (this.processedOrder != null) {
       if (this.processedOrder.code == undefined) {
         this.code = await this.helperservice.getCodeDetails(
@@ -595,7 +600,7 @@ export class OrderItemComponent implements OnInit {
       if (this.code) {
         if (this.code.codeID == this.processedOrder.codeID)
           this.codePrice = this.code.price;
-        //  //debugger;
+        //  ////debugger;
         if (this.processedOrder.codeType == undefined) {
           this.codeType = await this.helperservice.getCodeTypeById(
             this.code.codeTypeID
@@ -603,6 +608,7 @@ export class OrderItemComponent implements OnInit {
         } else {
           this.codeType = this.processedOrder.codeType;
         }
+        //debugger
         this.Price = this.codePrice * this.processedOrder?.quantity;
         this.Price = this.helperservice.paymentFormater(this.Price);
         this.getOrderPriceDiscount();
@@ -731,6 +737,7 @@ export class OrderItemComponent implements OnInit {
               await this.helperservice
                 .checkRate(this.codeType.codeCurrency, this.Price)
                 .then(async (data: any) => {
+                  //console.log("Yasir,", data)
                   if (data.rates.status == 'true') {
                     await this.helperservice
                       .getBalanceByclientIdandCurrencyAsync(
@@ -787,16 +794,16 @@ export class OrderItemComponent implements OnInit {
   current_Balance: any;
   loadingProgressPD = false;
   async payOrder() {
-    //console.log('pay Order');
+    ////console.log('pay Order');
     this.loadingProgressPD = true;
-    ////debugger;
+    //////debugger;
     var itemId = this.processedOrder.itemID;
     var codeId = this.processedOrder.codeID;
 
     var supplier: any;
 
     supplier = this.selectedSupplier;
-    //debugger;
+    ////debugger;
     if (supplier.supplierName != 'Stock') {
       if (this.balance == null) {
         await this.getCode();
@@ -819,7 +826,7 @@ export class OrderItemComponent implements OnInit {
           currencySymbol: this.symbol,
         };
         if (this.Ocurrency != null) {
-          //console.log('await this.checkIfSupplier(b) - 1');
+          ////console.log('await this.checkIfSupplier(b) - 1');
           await this.checkIfSupplier(b); //////not here
         }
       } else {
@@ -857,7 +864,7 @@ export class OrderItemComponent implements OnInit {
           };
           if (this.Ocurrency != null) {
             await this.checkIfSupplier(b);
-            //console.log('await this.checkIfSupplier(b) - 2 ');
+            ////console.log('await this.checkIfSupplier(b) - 2 ');
           }
         } else {
           this.showErrMsg = true;
@@ -897,7 +904,7 @@ export class OrderItemComponent implements OnInit {
   }
 
   async savePendingOrder(b: any) {
-    //debugger;
+    ////debugger;
     var pendingStatus = await this.statuses.find(
       (i: any) => i.statusName == 'pending'
     );
@@ -930,11 +937,11 @@ export class OrderItemComponent implements OnInit {
           data.orderDateTime
         );
         //97711779
-        //console.log('transaction', transaction);
+        ////console.log('transaction', transaction);
         //send admin mail
         // 9771 // this.sendAdminMail();
         
-        //console.log("showOrderToProceedDialog1")
+        ////console.log("showOrderToProceedDialog1")
         this.showOrderToProceedDialog = false;
         this.showOrderCompleteDialog = true;
         this.loadingProgressPD = false;
@@ -944,7 +951,7 @@ export class OrderItemComponent implements OnInit {
   }
 
   async checkIfSupplier(b: any) {
-    // //debugger;
+    // ////debugger;
     var supplier = this.selectedSupplier;
     var prependingStatus = await this.statuses.find(
       (i: any) => i.statusName == 'prepending'
@@ -980,7 +987,7 @@ export class OrderItemComponent implements OnInit {
 
   async saveOrder(b: any) {
     let cache: any = [];
-    //debugger;
+    ////debugger;
     var draftStatus = await this.statuses.find(
       (i: any) => i.statusName == 'draft'
     );
@@ -1016,15 +1023,15 @@ export class OrderItemComponent implements OnInit {
               this.userData?.email,
               this.processedOrder.orderDateTime
             );
-            //console.log('data_transaction', transaction);
+            ////console.log('data_transaction', transaction);
             var draftOrderCount: any = 0;
             var prependingOrderCount: any = 0;
             var prependingStatus = await this.statuses.find(
               (i: any) => i.statusName == 'prepending'
             );
 
-            //console.log('Your order has been completed');
-            //console.log("showOrderToProceedDialog2")
+            ////console.log('Your order has been completed');
+            ////console.log("showOrderToProceedDialog2")
             this.showOrderToProceedDialog = false;
             this.showOrderCompleteDialog = true;
             this.loadingProgressPD = false;
@@ -1074,7 +1081,7 @@ export class OrderItemComponent implements OnInit {
           var t=date.setMinutes(date.getMinutes() - offset);
           this.order.orderDateTime=new Date(t); */
       let formData = new FormData();
-      //debugger;
+      ////debugger;
       formData.append(
         'text',
         JSON.stringify(this.processedOrder, function (key, value) {
@@ -1116,8 +1123,8 @@ export class OrderItemComponent implements OnInit {
 
         ///send admin mail
         //this.sendAdminMail();
-        //console.log('Your order has been completed');
-        //console.log("showOrderToProceedDialog3")
+        ////console.log('Your order has been completed');
+        ////console.log("showOrderToProceedDialog3")
         this.showOrderToProceedDialog = false;
         this.showOrderCompleteDialog = true;
         this.loadingProgressPD = false;
@@ -1144,10 +1151,10 @@ export class OrderItemComponent implements OnInit {
       .then((data) => {
         if (this.currency != null) {
           if (data != null) {
-            console.log('getIfCatalogAvaliable', data);
+            //console.log('getIfCatalogAvaliable', data);
             this.ezipinService.createOrder(formData).then(async (data) => {
               if (data != null) {
-                console.log('ezipinService', data);
+                //console.log('ezipinService', data);
                 this.processedOrder.codeOrderPrice = this.Price;
                 this.processedOrder.orderCurrency = this.Ocurrency;
                 this.processedOrder.ezpinReferenceCode = data.referenceCode;
@@ -1164,7 +1171,7 @@ export class OrderItemComponent implements OnInit {
                     .then(async (cardData) => {
                       var values: any[] = [];
                       if (cardData.results.length != 0) {
-                        //console.log('cardData', cardData);
+                        ////console.log('cardData', cardData);
                         //////////////////
                         for (var codeValue of cardData.results) {
                           values.push({
@@ -1183,7 +1190,7 @@ export class OrderItemComponent implements OnInit {
                           await data.shareLink;
                         this.processedOrder.ezpinReferenceCode =
                           data.referenceCode;
-                        //console.log('Before Save Order');
+                        ////console.log('Before Save Order');
                         this.saveOrder(b);
                       }
                     });
@@ -1221,7 +1228,7 @@ export class OrderItemComponent implements OnInit {
   // }
 
   async createMintrouteOrder(code: any, supplier: any, orderQty: any, b: any) {
-    //debugger;
+    ////debugger;
     await this.mintrouteService
       .checkStockExists(code.denomination_id)
       .then((data) => {
@@ -1244,7 +1251,7 @@ export class OrderItemComponent implements OnInit {
                         orderDateTime: this.createdItem.orderDateTime,
                       });
 
-                     //console.log('min-order', this.createdItem.codeValues);
+                     ////console.log('min-order', this.createdItem.codeValues);
 
                       await this.valueService.addCodeValue(
                         this.createdItem.codeValues
@@ -1304,5 +1311,8 @@ export class OrderItemComponent implements OnInit {
   {
     this.showOrderToProceedDialog = false
   }
+
+
+
   
 }

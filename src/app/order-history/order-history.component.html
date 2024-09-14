@@ -26,41 +26,161 @@
     </div>
   </div>
 </div>
-<div class="table table-responsive pt-1 child-div"  style="overflow-y: hidden;"
->
 
-<div class="table table-responsive pt-1" 
-style="max-height:600px; overflow:auto; border-radius: 10px; min-height: 600px; height: auto;  background-color: white;">
-<div class="alert alert-light" style="font-weight: bold" role="alert">
-Order History
-</div>
-<table class="table table-responsive" >
-  <thead
-    class="thead-light table-light"
-    style="height: 50px; vertical-align: middle"
-  >
-    <tr>
-      <th scope="col">Bill S/N</th>
-      <th scope="col">Item</th>
-      <th scope="col">Status</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Total Price</th>
-      <th scope="col">Bill Date</th>
-    
-    </tr>
-  </thead>
-  <tbody class="table-group-divider">
-    <tr style="height: 50px; vertical-align: middle" *ngFor="let order of filteredOrders" >
-      <th scope="row">{{order.billNumber}}</th>
-      <td>{{order.itemName}}</td>
-      <td>{{order.statusName}}</td>
-      <td>{{order.quantity}}</td>
-      <th scope="row">{{(this.order.codeOrderPrice).toFixed(2)}} {{this.order.orderCurrency}}</th>
-      <td>{{order.orderDateTime}}</td>
-   
-    </tr>
+<div class="btn-group float-end p-3" role="group">
+  <button type="button" (click)="ArchiveOrder()" class="btn btn-outline-danger">
+    Archive
+    <i class="bi bi-archive"></i>
+  </button> 
 
+  <button type="button" *ngIf="showSearchClear" (click)="clearSearchItems()" class="btn btn-outline-danger">
+    X
+  </button>
   
-  </tbody></table>
-
 </div>
+
+<div class="table table-responsive pt-1 child-div" style="overflow-y: hidden">
+  <div
+    class="table table-responsive pt-1"
+    style="
+      max-height: 600px;
+      overflow: auto;
+      border-radius: 10px;
+      min-height: 600px;
+      height: auto;
+      background-color: white;
+    "
+  >
+    <div class="alert alert-light" style="font-weight: bold" role="alert">
+      Order History
+    </div>
+    <table class="table table-responsive" >
+      <thead
+        class="thead-light table-light"
+        style="height: 50px; vertical-align: middle"
+      >
+        <tr>
+          <th><input class="form-check-input"  (change)="SelectAllOrdersNew($event)"  type="checkbox" id="checkAll"></th>
+          <th scope="col">Bill S/N</th>
+          <th scope="col">Bill Date</th>
+          <th scope="col">Game</th>
+          <th scope="col">Code Name</th>
+          <th scope="col">Region</th>
+          <th scope="col">Status</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider">
+        <tr style="height: 50px; vertical-align: middle" *ngFor="let order of filteredOrders" >
+          <td><input class="form-check-input" type="checkbox" 
+            
+             
+             [checked]="isChecked(order)"
+             (change)="SelectOrderNew(order, $event)" 
+    
+             id="checkOrder{{order.billNumber}}"></td>
+          <th scope="row">{{order.billNumber}}</th>
+          <td>{{order.orderDateTime}}</td>
+          <td>{{order.itemName}}</td>
+          <td>{{order.codeName}}</td>
+          <td>{{order.name}}</td>
+          <td>{{order.statusName}}</td>
+          <td>{{order.quantity}}</td>
+          <th scope="row">{{(this.order.codeOrderPrice).toFixed(2)}} {{this.order.orderCurrency}}</th>
+    
+          <td><i class="bi bi-folder" style="cursor: pointer; color:rgb(0, 30, 255); font-weight: bolder; " (click)="openBill(order.orderID, order.orderDateTime)" ></i></td>
+          <td><i class="bi bi-download" style="cursor: pointer; color:red; " (click)="download(order)" ></i></td>
+        </tr>
+    
+      
+      </tbody></table>
+  </div>
+</div>
+
+
+
+
+
+<p-dialog 
+    header="Archive Complete" 
+    [modal]="true"
+    [closable]="false"
+    [(visible)]="showArchiveComplete" 
+    [style]="{ width: '20rem', height: '15rem', padding: '1px' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    >
+    <h5>
+      Your order has been archived successfully
+    </h5>
+   
+    <div class="d-flex justify-content-center mt-3" style="vertical-align: baseline;">
+      <button style="background-color: rgb(123, 6, 6);color:white"    (click)="viewHistoryOrder()" 
+        > Proceed </button>
+      <!-- <button color="primary" style="background-color: rgb(4, 0, 128);color:white"  
+      (click)="continueShopping()"> Continue Shopping</button> -->
+    
+
+    </div>
+</p-dialog>
+
+
+<p-dialog 
+    header="Enter the Code" 
+    [modal]="true"
+    [closable]="true"
+    [(visible)]="showDownloadCodePopup" 
+    [style]="{ width: '20rem', height: '17rem', padding: '1px' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    >
+    <h5>
+      Enter code sent to your email.
+    </h5>
+   
+    <div>
+                  
+      <input
+        type="text"
+        [(ngModel)]="eCodeValue"       
+        class="form-control"
+        placeholder="Code"
+      />
+
+      <div *ngIf="showCodeErr" class="text-danger">
+        Incorrect Code!
+      </div>
+    </div>
+    
+
+    <div class="d-flex justify-content-center mt-3" style="vertical-align: baseline;">
+      <button style="background-color: rgb(123, 6, 6);color:white"    (click)="proceedToDownload()" 
+        > Submit </button>
+      <!-- <button color="primary" style="background-color: rgb(4, 0, 128);color:white"  
+      (click)="continueShopping()"> Continue Shopping</button> -->
+    
+    </div>
+</p-dialog>
+
+<p-dialog 
+    header="Error !!" 
+    [modal]="true"
+    [closable]="true"
+    [(visible)]="showErrorInFLDLPopup" 
+    [style]="{ width: '20rem', height: '14rem', padding: '1px' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" 
+    >
+    <h5>
+      Please try again later, Or contact  admin.
+    </h5>
+   
+    <div class="d-flex justify-content-center mt-3" style="vertical-align: baseline;">
+      <button style="background-color: rgb(123, 6, 6);color:white"    (click)="closePopup()"  
+        > OK </button>
+      <!-- <button color="primary" style="background-color: rgb(4, 0, 128);color:white"  
+      (click)="continueShopping()"> Continue Shopping</button> -->
+    
+    </div>
+</p-dialog>

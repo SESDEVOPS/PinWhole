@@ -65,11 +65,29 @@ export class ItemService {
   updateOrderStatus(order: FormData): Promise<any> {
     var t = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const headers = { Authorization: `Bearer ${this.token}` };
-    return new Promise((resolve, reject) => {
-      this.http.put<any>(`${this.apiUrl}/api/orders/editStatus/`, order, {
-        headers,
-      });
-    });
+    // Simulating an async operation (like an HTTP request)
+    return firstValueFrom(
+      this.http.put<any>(
+        `${this.apiUrl}/api/orders/editStatus/`,
+        order,
+        { headers }
+      ).pipe(
+        catchError(async (err) => {
+          this.logService.saveLog(err.message);
+          var config = await this.logService.getConfiguration();
+          return throwError(err);
+        })
+      )
+    );
+    // var t = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    // order.append("ItemName",t)
+    // const headers = { Authorization: `Bearer ${this.token}` };
+    // console.log("yasir Orer",order)
+    // return new Promise((resolve, reject) => {
+    //   this.http.put<any>(`${this.apiUrl}/api/orders/editStatus/`, order, {
+    //     headers,
+    //   });
+    // });
   }
 
   getMoreItems(itemCountToFetch: any): Promise<any> {
@@ -183,6 +201,25 @@ export class ItemService {
 
 
 
+  getOrderById(orderId: any): Promise<any> {
+    var d = new Date()
+    var timezoneOffset = d.getTimezoneOffset();
+    const headers = { Authorization: `Bearer ${this.token}` };
+    // Simulating an async operation (like an HTTP request)
+    return firstValueFrom(
+      this.http.get<any>(
+        `${this.apiUrl}/api/orders/getById/${orderId}/${timezoneOffset}`,
+         
+        { headers }
+      ).pipe(
+        catchError(async (err) => {
+          this.logService.saveLog(err.message);
+          var config = await this.logService.getConfiguration();
+          return throwError(err);
+        })
+      )
+    );
+  }
 
 
   //   return new Promise((resolve, reject) => {

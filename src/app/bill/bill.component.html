@@ -1,0 +1,64 @@
+
+<div id="htmlData" class="table table-responsive pt-1" 
+style="max-height:600px; overflow:auto; overflow-x:hidden; border-radius: 10px;  height: auto;  background-color: white;">
+
+<div class="row p-3">
+    <div class="col-md-6">
+        <b>Company :</b> {{userComapany}}
+    </div>
+    <div class="col-md-6">
+        <b>Name :</b> {{order?.itemName}}
+    </div>
+</div>
+
+<div class="row p-3">
+    <div class="col-md-6">
+        <b>Bill S/N  :</b>{{order?.billNumber}}
+    </div>
+    <div class="col-md-6">
+        <b>Date : </b>{{order?.orderDateTime}}
+    </div>
+</div>
+
+<table class="table table-responsive" >
+    <thead
+      class="thead-light table-light"
+      style="height: 50px; vertical-align: middle"
+    >
+      <tr>
+        
+        <th scope="col">No.</th>
+        <th scope="col">Game</th>
+        <th scope="col">Code Name</th>
+        <th scope="col">Price	</th>
+        <th scope="col">Currency</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Total</th>
+      
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <tr style="height: 50px; vertical-align: middle">
+        
+        <th scope="row">1</th>
+        <td>{{order?.itemName}}</td>
+        <td>{{order?.codeName}}</td>
+        <td>{{order?.codeOrderPrice.toFixed(2)}}</td>
+        <td>{{order?.codeCurrency}}</td>
+        <td>{{order?.quantity}}</td>
+         <td>{{order?.codeOrderPrice}}</td>
+        
+      </tr>
+  
+    
+    </tbody></table>
+
+    
+</div>
+
+<div class="btn-group float-end" role="group" >
+    <button type="button"  (click)="downloadBill()"  class="btn btn-outline-danger">
+      <i class="bi bi-download"></i>
+      Download Bill
+    </button>
+  </div>

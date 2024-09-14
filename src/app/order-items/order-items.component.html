@@ -1,7 +1,7 @@
-<div class="m-3">
+<div class="mb-3 mt-3">
   <div class="card-body">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-4 col-xs-4 col-12">
         <div class="input-group flex-nowrap">
           <span class="input-group-text" id="addon-wrapping">
             <i class="bi bi-search"></i>
@@ -18,8 +18,12 @@
           
           />
           <span class="input-group-text" id="addon-wrapping">
-            <button type="button" (click)="applyFilterValueBtn()" class="btn btn-outline-primary">
+            <button type="button" *ngIf="!showSearchClear" (click)="applyFilterValueBtn()" 
+            class="btn btn-outline-primary">
               Search
+            </button>
+            <button type="button" *ngIf="showSearchClear" (click)="clearSearchItems()" class="btn btn-outline-danger">
+              X
             </button>
           </span>
         </div>
@@ -31,11 +35,11 @@
 <div class="card flex justify-content-center" *ngIf="loading">
   <p-progressSpinner ariaLabel="loading" />
 </div>
-<div class="row child-div">
+<div class="row child-div" >
   <div
   *ngIf="filteredItems.length > 0; else noItems"
-  class="row table table-responsive pt-2 "
-  
+  class="row table table-responsive pt-1"
+  style="overflow: hidden;"
 >
 <!-- 
 style="
@@ -49,11 +53,12 @@ height: auto;
   "
  -->
   <div
-    class="col-md-4"
+    class="col-md-auto col-sm-auto  d-flex justify-content-center align-items-center "
     *ngFor="let item of filteredItems"
-    style="justify-content: center"
+   
+  
   >
-    <app-order-item [item]="item" ></app-order-item>
+    <app-order-item [item]="item"  ></app-order-item>
     <!-- <p-card
       header="{{ order.itemName }}"
       subheader="{{ order.itemName }}"

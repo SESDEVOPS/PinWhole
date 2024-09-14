@@ -4,3 +4,8 @@
     overflow: auto; /* Handle internal scrolling if content overflows */
     box-sizing: border-box; /* Ensure padding and border are included in the height/width calculations */
   }
+
+  h5{
+    font-size: medium;
+    color: black !important; 
+  }
