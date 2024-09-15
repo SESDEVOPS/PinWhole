@@ -63,11 +63,12 @@ export class RegisterUserComponent {
   userName = new FormControl('', [Validators.nullValidator]);
   userPhone = new FormControl('', [Validators.nullValidator]);
   //userCompany = new FormControl('', [Validators.required]);
-  userCountry = new FormControl('', [Validators.nullValidator]);
-  userBusinessName = new FormControl('', [Validators.nullValidator]);
-  userBusinessRegistration = new FormControl('', [Validators.nullValidator]);
-  userBusinessTaxNo = new FormControl('', [Validators.nullValidator]);
-  userBusinessVolume = new FormControl('', [Validators.nullValidator]);
+  userCountry = new FormControl('', [Validators.required]);
+  userBusinessName = new FormControl('', [Validators.required]);
+  userBusinessRegistration = new FormControl('', [Validators.required]);
+  userBusinessTaxNo = new FormControl('', [Validators.required]);
+  userBusinessVolume = new FormControl('', [Validators.required]);
+  userBusinessCategory  = new FormControl('', [Validators.required]);
 
   //businessCategory =  new FormControl('Select Business Category', [Validators.required]);
   registerForm = new FormGroup({
@@ -81,6 +82,7 @@ export class RegisterUserComponent {
     userBusinessRegistration: this.userBusinessRegistration,
     userBusinessTaxNo: this.userBusinessTaxNo,
     userBusinessVolume: this.userBusinessVolume,
+    userBusinessCategory: this.userBusinessCategory,
   });
   value!: string;
   showError: any = false;
@@ -99,21 +101,25 @@ export class RegisterUserComponent {
   company: any;
   position: any;
   country: any;
+  taxNo:any;
+  businessRegNo: any;
+  businessVol: any;
+  selectedBCategory: string = '';
   async RegisterUser() {
-    
+    //console.log("sdsad",this.selectedBCategory)
     this.user = await this.authService.registerUser({
       username: this.username,
-      password: this.pwd,
-      
+      password: this.pwd,      
         email: this.email,
-        name: this.username,
-       
-        phoneNumber: this.phone_number,
-        
+        name: this.username,       
+        phoneNumber: this.phone_number,        
         company:this.company,
         position:"",
         country:this.country,
-       
+        taxId : this.taxNo,
+        expectedPurchase : this.businessVol,
+        businessRegistration : this.businessRegNo,
+        businessCategoryID : this.selectedBCategory,
        
       
       

@@ -114,7 +114,9 @@
             <p-inputGroupAddon>
               <i class="pi pi-phone"></i>
             </p-inputGroupAddon>
-            <input pInputText placeholder="Phone"   [(ngModel)]="phone_number" formControlName="userPhone" />
+            <input pInputText placeholder="Phone"   
+            [(ngModel)]="phone_number" 
+            formControlName="userPhone" />
           </p-inputGroup>
           <span>
             <h5
@@ -167,6 +169,7 @@
               pInputText
               placeholder="Business Registeration"
               formControlName="userBusinessRegistration"
+              [(ngModel)]="businessRegNo"
             />
           </p-inputGroup>
           <span>
@@ -196,6 +199,7 @@
               pInputText
               placeholder="TAX / VAT ID"
               formControlName="userBusinessTaxNo"
+              [(ngModel)]="taxNo"
             />
           </p-inputGroup>
           <span>
@@ -225,8 +229,9 @@
                 placeholder="Business Category"
               /> -->
 
-            <select class="form-select" aria-label="Default select example">
-              <option selected>Select Business Category</option>
+            <select class="form-select" 
+            [(ngModel)]="selectedBCategory" formControlName="userBusinessCategory" >
+              <option  selected disabled>Select Business Category</option>
               <option value="1">Retail</option>
               <option value="2">Re-seller</option>
               <option value="3">Wholesale</option>
@@ -235,7 +240,7 @@
         </div>
       </div>
     </div>
-
+   
     <div class="row p-2 m-2">
       <div class="d-flex justify-content-center align-items-center">
         <div class="col-md-4">
@@ -247,6 +252,7 @@
               pInputText
               placeholder="Expected Purchase Volume Per Month"
               formControlName="userBusinessVolume"
+              [(ngModel)]="businessVol"
             />
           </p-inputGroup>
           <span>
