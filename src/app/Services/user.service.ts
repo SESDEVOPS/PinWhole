@@ -409,9 +409,10 @@ export class UserService {
     });
   }
   adminChangePassword(user: any): Promise<any> {
+  
     return new Promise((resolve, reject) => {
       this.http
-        .post<any>(environment.apiUrl + 'api/user/adminChangePassword', user)
+        .post<any>(environment.apiUrl + '/api/user/adminChangePassword', user)
 
         .pipe(
           catchError(async (err) => {

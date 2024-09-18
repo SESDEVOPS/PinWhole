@@ -12,6 +12,7 @@ import { TransactionService } from './Services/transaction.service';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { BillComponent } from './bill/bill.component';
 
+
 export const routes: Routes = [
   {
     path: '',
@@ -51,6 +52,7 @@ export const routes: Routes = [
         component: TransactionsComponent,
         canActivate: [authGuard],
       },
+     
 
       {
         path: 'bill/:id',

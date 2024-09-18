@@ -6,10 +6,16 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './Guards/auth.guard';
 import { RegisterUserComponent } from './register-user/register-user.component';
+import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
 
 export const appRoute: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterUserComponent },
+  {
+    path: 'forget',
+    component: ForgetpasswordComponent,
+    
+  },
   { 
     path: 'home', 
     loadChildren: () => import('./app.routes').then(m => m.routes), 

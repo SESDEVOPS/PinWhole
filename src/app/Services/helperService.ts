@@ -443,6 +443,37 @@ export class HelperService {
     // });
   }
 
+
+  adminChangePassword(user: any): Promise<any> {
+    console.log("user",user)
+    const headerDict = {
+      Authorization: `Bearer ${this.token}`,
+    };
+    const requestOptions = {
+      headers: new HttpHeaders(headerDict),
+    };
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+   
+
+    return firstValueFrom(
+      this.http
+        .post<any>(`${this.apiUrl}/api/user/adminChangePassword`, user, {
+          headers,
+        })
+        .pipe(
+          catchError(async (err) => {
+            this.logService.saveLog(err.message);
+            var config = await this.logService.getConfiguration();
+            return throwError(err);
+          })
+        )
+    );
+  }
+
+
+
   updateOrder(order: FormData): Promise<any> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${this.token}`,
