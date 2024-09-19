@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ItemService } from '../Services/itemservice';
 import { HelperService } from '../Services/helperService';
 import { UserService } from '../Services/user.service';
@@ -16,7 +16,7 @@ import { DialogModule } from 'primeng/dialog';
 @Component({
   selector: 'app-forgetpassword',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, DialogModule, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, DialogModule, CommonModule, RouterModule],
   templateUrl: './forgetpassword.component.html',
   styleUrl: './forgetpassword.component.css',
 })

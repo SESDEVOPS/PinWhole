@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthenticateService } from '../Services/authenticate.service';
 import { DialogModule } from 'primeng/dialog';
 import { CardModule } from 'primeng/card';
@@ -30,6 +30,7 @@ import { DividerModule } from 'primeng/divider';
   standalone: true,
   imports: [
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     CommonModule,
     CardModule,
