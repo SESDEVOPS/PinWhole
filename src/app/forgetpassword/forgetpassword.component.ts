@@ -65,7 +65,7 @@ export class ForgetpasswordComponent {
     //console.log("this.signupForm.valid",this.signupForm.valid)
     if (this.signupForm.valid) {
       this.OTPValue = Math.floor(1000 + Math.random() * 9000);
-      console.log("this.OTPValu",this.OTPValue)
+      //console.log("this.OTPValu",this.OTPValue)
       var Subject = ' OTP - Forget Password ';
       var message =
         'Dear Partner;;' + 'Your One Time Pin is : ' + this.OTPValue;
@@ -127,7 +127,7 @@ export class ForgetpasswordComponent {
          }
          await this.helperService.adminChangePassword(model)
          .then((value)=>{
-          console.log("value.challengeName",value)
+        //  console.log("value.challengeName",value)
           if(value.challengeName == undefined)
           {
             this.resetPassError = true;

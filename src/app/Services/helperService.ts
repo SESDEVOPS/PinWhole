@@ -38,6 +38,22 @@ export class HelperService {
   //     .pipe(map((response) => response));
   // }
 
+
+  getCountries(): Promise<any> {
+    const headers = { Authorization: `Bearer ${this.token}` };
+    var val = firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/api/country`, { headers }).pipe(
+        catchError(async (err) => {
+          this.logService.saveLog(err.message);
+          var config = await this.logService.getConfiguration();
+          return throwError(err);
+        })
+      )
+    );
+    return val;
+  }
+
+
   getRegions(): Promise<any> {
     const headers = { Authorization: `Bearer ${this.token}` };
     var val = firstValueFrom(

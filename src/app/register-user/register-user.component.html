@@ -202,7 +202,7 @@
               [(ngModel)]="taxNo"
             />
           </p-inputGroup>
-          <span>
+          <!-- <span>
             <h5
               id="userBusinessTaxNoErr"
               [hidden]="userBusinessTaxNo.untouched || userBusinessTaxNo.valid"
@@ -210,7 +210,7 @@
             >
               Please enter the TAX / VAT ID
             </h5>
-          </span>
+          </span> -->
         </div>
       </div>
     </div>
@@ -230,8 +230,8 @@
               /> -->
 
             <select class="form-select" 
-            [(ngModel)]="selectedBCategory" formControlName="userBusinessCategory" >
-              <option  selected disabled>Select Business Category</option>
+            formControlName="userBusinessCategory" >
+              <option value=""  selected disabled>Select Business Category</option>
               <option value="1">Retail</option>
               <option value="2">Re-seller</option>
               <option value="3">Wholesale</option>
@@ -240,21 +240,33 @@
         </div>
       </div>
     </div>
-   
+
+
     <div class="row p-2 m-2">
       <div class="d-flex justify-content-center align-items-center">
         <div class="col-md-4">
-          <p-inputGroup>
-            <p-inputGroupAddon>
-              <i class="pi pi-sort-numeric-up"></i>
-            </p-inputGroupAddon>
-            <input
-              pInputText
-              placeholder="Expected Purchase Volume Per Month"
-              formControlName="userBusinessVolume"
-              [(ngModel)]="businessVol"
-            />
-          </p-inputGroup>
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="bi bi-cash-coin"></i>
+            </div>
+            <!-- <input
+                type="text"
+                class="form-control"
+                formControlName="userCompany"
+                placeholder="Business Category"
+              /> -->
+
+              <select class="form-select" 
+                formControlName="userBusinessVolume"  >
+                <option value=""  selected disabled>Expected Purchase Volume Per Month</option>
+                <option value="10000-50000">10000 - 50000</option>
+                <option value="51000-100000">51000 - 100000</option>
+                <option value="101000-500000">101000 - 500000</option>
+                <option value="500000+">More than 500000</option>
+              </select>
+             
+          </div>
+
           <span>
             <h5
               id="userBusinessVolumeErr"
@@ -269,8 +281,49 @@
         </div>
       </div>
     </div>
+   
+
 
     <div class="row p-2 m-2">
+      <div class="d-flex justify-content-center align-items-center">
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-text">
+              <i class="pi pi-globe"></i>
+            </div>
+            <!-- <input
+                type="text"
+                class="form-control"
+                formControlName="userCompany"
+                placeholder="Business Category"
+              /> -->
+
+              <select class="form-select" 
+                formControlName="userCountry"  >
+                <option value=""  selected disabled>Select Country</option>
+                <option 
+                *ngFor="let country of countries" 
+                [value]="country.countryID">
+                {{ country.countryName }}
+              </option>
+              </select>
+             
+          </div>
+
+          <span>
+            <h5
+              id="userCountryErr"
+              [hidden]="userCountry.untouched || userCountry.valid"
+              class="form-text text-muted"
+            >
+              Please enter the Country
+            </h5>
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div class="row p-2 m-2">
       <div class="d-flex justify-content-center align-items-center">
         <div class="col-md-4">
           <p-inputGroup>
@@ -284,18 +337,10 @@
               [(ngModel)]="country"
             />
           </p-inputGroup>
-          <span>
-            <h5
-              id="userCountryErr"
-              [hidden]="userCountry.untouched || userCountry.valid"
-              class="form-text text-muted"
-            >
-              Please enter the Country
-            </h5>
-          </span>
+         
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="row p-2 m-2">
       <div class="d-flex justify-content-center align-items-center">

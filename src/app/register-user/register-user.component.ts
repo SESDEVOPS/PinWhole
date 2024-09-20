@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
+import { HelperService } from '../Services/helperService';
 
 @Component({
   selector: 'app-register-user',
@@ -44,7 +45,7 @@ import { DialogModule } from 'primeng/dialog';
   templateUrl: './register-user.component.html',
   styleUrl: './register-user.component.css',
 })
-export class RegisterUserComponent {
+export class RegisterUserComponent implements OnInit {
   showRegSuccess = false;
   invalidClass = 'is-invalid';
   disabledClass = 'disabled';
@@ -66,7 +67,7 @@ export class RegisterUserComponent {
   userCountry = new FormControl('', [Validators.required]);
   userBusinessName = new FormControl('', [Validators.required]);
   userBusinessRegistration = new FormControl('', [Validators.required]);
-  userBusinessTaxNo = new FormControl('', [Validators.required]);
+  userBusinessTaxNo = new FormControl('', [Validators.nullValidator]);
   userBusinessVolume = new FormControl('', [Validators.required]);
   userBusinessCategory  = new FormControl('', [Validators.required]);
 
@@ -89,9 +90,13 @@ export class RegisterUserComponent {
   error: any = "";
   constructor(
     private router: Router,
-    private authService: AuthenticateService
+    private authService: AuthenticateService,
+    private helperService: HelperService
   ) 
   {}
+  ngOnInit() {
+   this. getCountries();
+  }
 
   username: any;
   pwd: any;
@@ -106,7 +111,9 @@ export class RegisterUserComponent {
   businessVol: any;
   selectedBCategory: string = '';
   async RegisterUser() {
-    //console.log("sdsad",this.selectedBCategory)
+    // console.log("this.registerForm.get('userBusinessVolume')",this.registerForm.value.userBusinessVolume)
+    // return
+    
     this.user = await this.authService.registerUser({
       username: this.username,
       password: this.pwd,      
@@ -115,11 +122,11 @@ export class RegisterUserComponent {
         phoneNumber: this.phone_number,        
         company:this.company,
         position:"",
-        country:this.country,
+        country:this.registerForm.value.userCountry,
         taxId : this.taxNo,
-        expectedPurchase : this.businessVol,
+        expectedPurchase : this.registerForm.value.userBusinessVolume, //this.businessVol,
         businessRegistration : this.businessRegNo,
-        businessCategoryID : this.selectedBCategory,
+        businessCategoryID : this.registerForm.value.userBusinessCategory,
        
       
       
@@ -139,6 +146,14 @@ export class RegisterUserComponent {
     }
     })
 
+  }
+  countries: any;
+  async getCountries(){
+    await this.helperService.getCountries().then((data)=>{
+      this.countries = data;
+    })
+
+    console.log("this.countries",this.countries)
   }
 
   showPasswordHelp() {
@@ -188,4 +203,6 @@ export class RegisterUserComponent {
     // }
     
   }
+
+ 
 }

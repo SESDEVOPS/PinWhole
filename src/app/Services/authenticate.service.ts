@@ -56,7 +56,7 @@ export class AuthenticateService
 
 
         registerUser(body:any):Promise<any>{
-        //  console.log("body", body);
+          console.log("body", body);
          
           const headers = new HttpHeaders({
             Authorization: `Bearer ${this.token}`,
@@ -64,7 +64,7 @@ export class AuthenticateService
       
           return firstValueFrom(
             this.http
-              .post<any>(`${environment.apiUrl}/account/register`, body, {
+              .post<any>(`${environment.apiUrl}/account/registerasasa`, body, {
                 headers,
               })
               .pipe(
