@@ -19,7 +19,7 @@ export const appRoute: Routes = [
   { 
     path: 'home', 
     loadChildren: () => import('./app.routes').then(m => m.routes), 
-   // canActivate: [authGuard] 
+    canActivate: [authGuard] 
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];
