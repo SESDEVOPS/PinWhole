@@ -34,7 +34,7 @@ constructor(private http: HttpClient, private _route : ActivatedRoute,private ro
    
     await this.GetUserDetails();
     await this.getOrder();
-    console.log(".userComapany",this.userComapany)
+   // console.log(".userComapany",this.userComapany)
   }
 
   // getUser=async()=>

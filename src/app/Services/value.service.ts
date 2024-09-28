@@ -10,6 +10,7 @@ import { firstValueFrom, Subject, throwError } from 'rxjs';
 import { Status } from '../Models/status';
 import { environment } from '../../environments/environments';
 import { LogService } from './log.service';
+import { TokenService } from '../token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,10 +20,11 @@ export class ValueService {
   token: any = '';
   refreshToken: any = '';
   clientID: any = '';
+
  
-  constructor(private http: HttpClient, private logService: LogService) {
+  constructor(private http: HttpClient, private logService: LogService,  private tokenService: TokenService) {
     this.apiUrl = environment.apiUrl;
-    this.token = localStorage.getItem('token');
+    this.token = this.tokenService.getAccessToken(); //localStorage.getItem('token');
     this.refreshToken = localStorage.getItem('refreshToken');
     this.clientID = localStorage.getItem('userID');
   }

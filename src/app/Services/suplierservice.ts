@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environments';
 import { LogService } from './log.service';
+import { TokenService } from '../token.service';
 
 @Injectable({ providedIn: 'root' })
 export class SupplierService {
@@ -11,9 +12,10 @@ export class SupplierService {
   token: any = '';
   refreshToken: any = '';
   clientID: any = '';
-  constructor(private http: HttpClient, private logService: LogService) {
+ 
+  constructor(private http: HttpClient, private logService: LogService,  private tokenService: TokenService) {
     this.apiUrl = environment.apiUrl;
-    this.token = localStorage.getItem('token');
+    this.token = this.tokenService.getAccessToken(); //localStorage.getItem('token');
     this.refreshToken = localStorage.getItem('refreshToken');
     this.clientID = localStorage.getItem('userID');
   }

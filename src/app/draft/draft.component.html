@@ -1,0 +1,54 @@
+<div class="table table-responsive pt-1 child-div" style="overflow-y: hidden">
+    <div
+      class="table table-responsive pt-1"
+      style="
+        max-height: 600px;
+        overflow: auto;
+        border-radius: 10px;
+        min-height: 600px;
+        height: auto;
+        background-color: white;
+      "
+    >
+      <div class="alert alert-light" style="font-weight: bold" role="alert">
+       Draft
+      </div>
+      <table class="table table-responsive" >
+        <thead
+          class="thead-light table-light"
+          style="height: 50px; vertical-align: middle"
+        >
+          <tr>
+            
+            
+            <th scope="col">Bill Date</th>
+            <th scope="col">Game</th>
+            <th scope="col">Code Name</th>  
+            <th scope="col">Code Currency</th>           
+            <th scope="col">Quantity</th>
+            <th scope="col">Total Price</th>
+            
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+          <tr style="height: 50px; vertical-align: middle" *ngFor="let order of filteredOrders" >
+           
+           
+            <td>{{order.orderDateTime}}</td>
+            <td>{{order.itemName}}</td>
+            <td>{{order.codeName}}</td>
+            
+            <td>{{order.codeCurrency}}</td>
+            <td>{{order.quantity}}</td>
+            <th scope="row">{{(this.order.codeOrderPrice).toFixed(2)}} {{this.order.orderCurrency}}</th>
+      
+            <td><i class="bi bi-pencil-square" (click)="openBill(this.order.orderID)"  style="cursor: pointer; color:rgb(0, 30, 255); font-weight: bolder; "  ></i></td>
+            <td><i class="bi bi-trash3-fill" (click)="DeleteBill(this.order.orderID)" style="cursor: pointer; color:red; " ></i></td>
+          </tr>
+      
+        
+        </tbody></table>
+    </div>
+  </div>

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -10,6 +10,9 @@ import { LogService } from './log.service';
   providedIn: 'root',
 })
 export class UserService {
+  apiUrl: any = '';
+  token: any = '';
+  refreshToken: any = '';
   constructor(
     private http: HttpClient,
     private logService: LogService
@@ -29,12 +32,23 @@ export class UserService {
 
   SetCurrentUser(data: any) {
     this.currentUserData = data;
+    localStorage.setItem('currentUserData', this.currentUserData);
   }
   GetCurrenctUser(): Promise<any> {
     return new Promise((resolve, reject) => {
-      resolve(this.currentUserData);
+      const currentUserData = localStorage.getItem('currentUserData');
+      if (currentUserData) {
+        resolve(this.currentUserData);
+      }
+      //console.log("this.currentUserData",this.currentUserData)
+     
     });
   }
+  // SetCurrentUser(userData: any): void {
+  //   this.currentUserData = userData;
+  //   localStorage.setItem('currentUserData', JSON.stringify(userData));
+  // }
+
   getUserData(id: any): Promise<any> {
     var u = {
       userName: id,
@@ -64,6 +78,41 @@ export class UserService {
         };
     });
   }
+
+  getUserDetails(clientID:any):Promise<any>{
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    var u = {
+      userName: clientID,
+    };
+    return new Promise((resolve, reject) => {
+
+      this.http.post<any>( '${this.apiUrl}/api/getUserById',u, {headers})
+      .pipe
+      (
+        catchError(async(err) => {
+          if(err.status!=401){
+            //this.spinnerService.hide()       
+  this.logService.saveLog(err.message)
+  var config=await this.logService.getConfiguration();
+  if(config.value==true)
+
+          return throwError(null);   
+            }return null        })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+   
+    })
+  }
+  
   signout(id: any): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http

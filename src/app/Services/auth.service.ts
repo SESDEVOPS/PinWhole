@@ -64,7 +64,7 @@ async activate()
 }
   async signIn(res:any) {
     try {
-      console.log("res",res)
+    //  console.log("res",res)
           this._isAuthenticated.next(true);
          this._role.next(res.role)
          localStorage.setItem("token",res.token)
@@ -72,6 +72,11 @@ async activate()
          localStorage.setItem("role",res.role)
          localStorage.setItem("userID",res.user.id)
          localStorage.setItem("userName",res.user.loggedName)
+         localStorage.setItem("userEmail",res.user.email)         
+         localStorage.setItem("position",res.user.position)
+         localStorage.setItem("company",res.user.company)
+         
+
          
          localStorage.setItem("RefreshError","False")
            this.router.navigate(['head']); 

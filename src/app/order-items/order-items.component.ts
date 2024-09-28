@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
@@ -65,12 +65,16 @@ export class OrderItemsComponent implements OnInit {
   constructor(private itemService: ItemService, private helper: HelperService) {
     // this.onWindowScroll();
   }
+
+ 
   ngOnInit(): void {
     this.waitResponseFromDB = false;
     this.loading = true;
     this.getAllItems();
     this.loading = false;
   }
+
+
 
   async getAllItems() {
     await this.itemService.getAllItems().subscribe({
@@ -91,7 +95,7 @@ export class OrderItemsComponent implements OnInit {
 
     await this.itemService.getMoreItems(items).then((data) => {
       if (data != null) {
-        console.log('data', data);
+      //  console.log('data', data);
         this.itemsForPurchase.push(...data.allItems);
         this.filteredItems.push(...data.allItems)
         this.itemsForPurchase=this.filteredItems
@@ -107,10 +111,12 @@ export class OrderItemsComponent implements OnInit {
    //this.filteredItems=this.removeDuplicates(this.filteredItems,"itemID")
 
 
-    console.log('data', this.itemsForPurchase);
+   // console.log('data', this.itemsForPurchase);
   }
   @HostListener('window:scroll', ['$event'])
   onWindowScroll() {
+    //alert("sds")
+    //console.log("scrolling")
     let pos =
       (document.documentElement.scrollTop || document.body.scrollTop) +
       document.documentElement.offsetHeight;
@@ -153,10 +159,10 @@ export class OrderItemsComponent implements OnInit {
     await this.itemService
       .getItemContainLettters(this.searchFilter)
       .then(async (data) => {
-        console.log("data-data-nnn",data)
+     //   console.log("data-data-nnn",data)
         if (data != null && data != undefined) {
           if (data.length != 0) {
-            console.log("data-data",data)
+            //console.log("data-data",data)
             //this.checkSearch=true
             this.filteredItems = [];
             this.filteredItems.push(...data);
@@ -178,4 +184,8 @@ export class OrderItemsComponent implements OnInit {
   //     }
 
   // }
+
+
+  
+ 
 }

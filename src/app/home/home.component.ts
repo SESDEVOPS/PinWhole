@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
     
   }
   save(){
-    alert("---")
+    
   }
   async GetClientUSDBalance() {
 
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit {
   getCurrentBalance()
   {
     this.currentBal =  this.balanceService.getUpdatedBalance(this.balance);
-    console.log("getCurrentBalance()",this.currentBal );
+    //console.log("getCurrentBalance()",this.currentBal );
   }
   async GetUserDetails() {
     await this.userService.GetCurrenctUser().then((data) => {

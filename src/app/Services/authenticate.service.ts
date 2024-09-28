@@ -4,6 +4,7 @@ import {Subject, firstValueFrom, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environments';
 import { LogService } from './log.service';
+import { TokenService } from '../token.service';
 //import { LogService } from './log.service';
 //import { AmendBillService } from 'src/app/Components/home/order-amend/order-bill/amend-bill.service';
 @Injectable({
@@ -15,12 +16,12 @@ export class AuthenticateService
   token: any = '';
   
 
-    constructor(private http: HttpClient,private logService: LogService
+    constructor(private http: HttpClient,private logService: LogService, private tokenService: TokenService
         //private logService:LogService,
        // private sendMailService:AmendBillService
        ) {
         this.apiUrl = environment.apiUrl;
-    this.token = localStorage.getItem("token");
+        this.token = this.tokenService.getAccessToken(); //localStorage.getItem("token");
    
        }
         registerAdmin(body:any):Promise<any>{

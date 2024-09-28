@@ -3,6 +3,7 @@ import { LogService } from './log.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environments';
 import { catchError, firstValueFrom, throwError } from 'rxjs';
+import { TokenService } from '../token.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,15 @@ export class TransactionService
   token: any = '';
   refreshToken: any = '';
   clientID: any = '';
+
   constructor(private http: HttpClient,
-    private logService:LogService,
+    private logService:LogService
+    , private tokenService: TokenService
    
     //public spinnerService: SpinnerService
    
     ) {   
-      this.token = localStorage.getItem("token");
+      this.token = this.tokenService.getAccessToken(); //localStorage.getItem("token");
       this.refreshToken=localStorage.getItem("refreshToken");
       this.clientID = localStorage.getItem('userID');
     }

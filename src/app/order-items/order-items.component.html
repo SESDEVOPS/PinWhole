@@ -35,7 +35,7 @@
 <div class="card flex justify-content-center" *ngIf="loading">
   <p-progressSpinner ariaLabel="loading" />
 </div>
-<div class="row child-div" >
+<div class="row child-div"  style="overflow: hidden;" >
   <div
   *ngIf="filteredItems.length > 0; else noItems"
   class="row table table-responsive pt-1"
@@ -52,11 +52,12 @@ height: auto;
     background-color: white;
   "
  -->
-  <div
+  <div  
+  
     class="col-md-auto col-sm-auto  d-flex justify-content-center align-items-center "
     *ngFor="let item of filteredItems"
    
-  
+    
   >
     <app-order-item [item]="item"  ></app-order-item>
     <!-- <p-card
@@ -90,7 +91,10 @@ height: auto;
 </div>
 <div class="row pr-5" style="text-align: right" *ngIf="showMore" >
   <div class="col-md-12">
-    <button type="button" (click)="getMoreItems()" class="btn btn-link">More
+    <button type="button" (click)="getMoreItems()"  
+    (mouseenter)="getMoreItems()"
+    (mouseleave)="getMoreItems()"
+    class="btn btn-link">More
       <i class="bi bi-caret-right-fill"></i>
     </button>
   </div>

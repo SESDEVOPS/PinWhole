@@ -153,11 +153,11 @@ export class RegisterUserComponent implements OnInit {
       this.countries = data;
     })
 
-    console.log("this.countries",this.countries)
+    //console.log("this.countries",this.countries)
   }
 
   showPasswordHelp() {
-    console.log('showPasswordHelp');
+    //console.log('showPasswordHelp');
   }
 
   goToLogin(){

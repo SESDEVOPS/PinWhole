@@ -19,7 +19,7 @@ data-bs-target="#navbarSupportedContentss" aria-controls="navbarSupportedContent
   aria-expanded="false"
   aria-controls="navbarSupportedContentss"></i> -->
  
-  <div class="row align-items-start responsive-height">
+  <div class="row align-items-start" >
     <div
     class="offcanvas offcanvas-start col-12 col-sm-auto col-md-auto p-3 d-md-block m-3 child-div-sidebar sidebar"
     id="navbarSupportedContentss"
@@ -88,7 +88,8 @@ data-bs-target="#navbarSupportedContentss" aria-controls="navbarSupportedContent
   <ul class="dropdown-menu dropdown-menu-end" style="width: 200px;">
     <li ><a class="dropdown-item" routerLink="/home/profile">Profile</a></li>
     <li ><a class="dropdown-item" routerLink="/home/wallet">Wallet</a></li>
-    <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li>
+    <li ><a class="dropdown-item" routerLink="/home/draft">Draft Orders</a></li>
+    <!-- <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li> -->
   </ul>
 </div>
 </div>
@@ -322,7 +323,8 @@ data-bs-target="#navbarSupportedContentss" aria-controls="navbarSupportedContent
     <ul class="dropdown-menu dropdown-menu-end" style="width: 200px;">
       <li ><a class="dropdown-item" routerLink="/home/profile">Profile</a></li>
       <li ><a class="dropdown-item" routerLink="/home/wallet">Wallet</a></li>
-      <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li>
+      <li ><a class="dropdown-item" routerLink="/home/draft">Draft Orders</a></li>
+      <!-- <li ><a class="dropdown-item" (click)="logout()">Sign Out</a></li> -->
     </ul>
   </div>
 </div>
@@ -468,26 +470,24 @@ data-bs-target="#navbarSupportedContentss" aria-controls="navbarSupportedContent
               (click)="logout()"
             >
 
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                fill="currentColor"
-                class="bi bi-person-fill Linksvg"
-                viewBox="0 0 16 16"
-                style="margin-right: 5"
-              >
-                <path
-                  d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"
-                />
-              </svg>
+            <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="25"
+            height="25"
+            fill="currentColor"
+            class="bi bi-person Linksvg"
+            viewBox="0 0 16 16"
+            style="margin-right: 5"
+          >
+          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+          </svg>
               Logout</a
             >
           </li>
         </ul>
       </div>
     </div>
-    <div class="col-md-9  p-3 m-3 responsive-height" style="background-color: white;">
+    <div class="col-md-9  p-3 m-3 responsive-height" style="background-color: white; height: 100%; min-height: 80%;">
       <router-outlet></router-outlet>
     </div>
   </div>

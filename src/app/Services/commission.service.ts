@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {catchError, firstValueFrom, throwError } from 'rxjs';
 import { LogService } from './log.service';
 import { environment } from '../../environments/environments';
+import { TokenService } from '../token.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,10 +16,11 @@ export class CommissionService
   refreshToken: any = '';
   constructor(private http: HttpClient,
     private logService:LogService,
+    private tokenService: TokenService
    ) {
 
     this.apiUrl = environment.apiUrl;
-    this.token = localStorage.getItem("token");
+    this.token = this.tokenService.getAccessToken(); //localStorage.getItem("token");
     this.refreshToken=localStorage.getItem("refreshToken")
    }
     editExchange(status:any):Promise<any>{

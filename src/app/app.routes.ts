@@ -11,53 +11,60 @@ import { WalletComponent } from './wallet/wallet.component';
 import { TransactionService } from './Services/transaction.service';
 import { TransactionsComponent } from './transactions/transactions.component';
 import { BillComponent } from './bill/bill.component';
+import { DraftComponent } from './draft/draft.component';
 
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,    
-    canActivate: [authGuard],
+   // canActivate: [authGuard],
     children: [
       { path: 'new', component: OrderItemsComponent, 
-       canActivate: [authGuard] 
+      // canActivate: [authGuard] 
       },
       {
         path: 'pending',
         component: PendingOrderComponent,
-         canActivate: [authGuard],
+       //  canActivate: [authGuard],
       },
       {
         path: 'archive',
         component: ArchiveOrderComponent,
-       canActivate: [authGuard],
+       //canActivate: [authGuard],
       },
       {
         path: 'history',
         component: OrderHistoryComponent,
-          canActivate: [authGuard],
+         // canActivate: [authGuard],
       },
       {
         path: 'profile',
         component: ProfileComponent,
-         canActivate: [authGuard],
+      //   canActivate: [authGuard],
       },
       {
         path: 'wallet',
         component: WalletComponent,
-         canActivate: [authGuard],
+      //   canActivate: [authGuard],
       },
      {
         path: 'transactions',
         component: TransactionsComponent,
-        canActivate: [authGuard],
+      //  canActivate: [authGuard],
       },
      
 
       {
         path: 'bill/:id',
         component: BillComponent,
-        canActivate: [authGuard],
+    //    canActivate: [authGuard],
+      },
+
+      {
+        path: 'draft',
+        component: DraftComponent,
+    //    canActivate: [authGuard],
       },
     ],
   },

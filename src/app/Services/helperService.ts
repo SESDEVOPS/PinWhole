@@ -12,6 +12,7 @@ import { environment } from '../../environments/environments';
 import { LogService } from './log.service';
 import * as XLSX from 'xlsx';
 import * as fileSaver from 'file-saver';
+import { TokenService } from '../token.service';
 //import * as fileSaver from 'file-saver';
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -21,10 +22,13 @@ export class HelperService {
   apiUrl: any = '';
   token: any = '';
   refreshToken: any = '';
+  //tokenService: any;
 
-  constructor(private http: HttpClient, private logService: LogService) {
+  constructor(private http: HttpClient, private logService: LogService, private tokenService: TokenService) {
     this.apiUrl = environment.apiUrl;
-    this.token = localStorage.getItem('token');
+    //this.token = localStorage.getItem('token');
+     // this.token = localStorage.getItem('token');
+     this.token = this.tokenService.getAccessToken();
     this.refreshToken = localStorage.getItem('refreshToken');
   }
 
@@ -300,7 +304,7 @@ export class HelperService {
       }
     );
 
-    console.log(' all ', all);
+   // console.log(' all ', all);
     var transaction = {
       ApplicationUserId: clientID,
       TransactionMethod: payMethod,
@@ -461,7 +465,7 @@ export class HelperService {
 
 
   adminChangePassword(user: any): Promise<any> {
-    console.log("user",user)
+    //console.log("user",user)
     const headerDict = {
       Authorization: `Bearer ${this.token}`,
     };
@@ -667,6 +671,145 @@ export class HelperService {
         reject(error);
       }
    
+    })
+  }
+
+
+  getCallBack(clientID:any):Promise<any>{
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+
+    return new Promise((resolve, reject) => {
+
+      this.http.get<any>( `${this.apiUrl}/api/callBack/${clientID}`, {headers})
+      .pipe
+      (
+        catchError(async(err) => {
+          if(err.status!=401){
+            //this.spinnerService.hide()       
+  this.logService.saveLog(err.message)
+  var config=await this.logService.getConfiguration();
+  if(config.value==true)
+
+          return throwError(null);   
+            }return null        })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+   
+    })
+  }
+
+  createIP(ip:any):Promise<any>{
+   
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    return new Promise((resolve, reject) => {
+  
+      this.http.post<any>( `${this.apiUrl}/api/whiteIP/create`, ip, {headers})
+     
+      .pipe
+      (
+        catchError(async(err) => {
+        
+          if(err.status!=401){
+            this.logService.saveLog(err.message)
+            var config=await this.logService.getConfiguration();
+            if(config.value==true)
+         
+                    return throwError(null);    
+                    }
+                    return;
+        })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+  
+    })
+  }
+
+  createCallBack(url:any):Promise<any>{
+    //console.log("url",url)
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    return new Promise((resolve, reject) => {
+  
+      this.http.post<any>( `${this.apiUrl}/api/callBack/create`, url, {headers})
+     
+      .pipe
+      (
+        catchError(async(err) => {
+        
+          if(err.status!=401){
+            this.logService.saveLog(err.message)
+            var config=await this.logService.getConfiguration();
+            if(config.value==true)
+         
+                    return throwError(null);    
+                    }
+                    return;
+        })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+  
+    })
+  }
+
+
+  editCallBack(url:any):Promise<any>{
+   
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.token}`,
+    });
+    return new Promise((resolve, reject) => {
+  
+      this.http.post<any>( `${this.apiUrl}/api/callBack/edit`, url, {headers})
+     
+      .pipe
+      (
+        catchError(async(err) => {
+        
+          if(err.status!=401){
+            this.logService.saveLog(err.message)
+            var config=await this.logService.getConfiguration();
+            if(config.value==true)
+         
+                    return throwError(null);    
+                    }
+                    return;
+        })
+      )
+      .subscribe((data:any)=>{
+        resolve(data)
+      }
+
+      ),
+          (  error: any) => {
+        reject(error);
+      }
+  
     })
   }
 

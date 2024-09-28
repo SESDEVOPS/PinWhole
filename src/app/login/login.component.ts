@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
       .Login({email: this.email, password: this.password })
       .then((res) => {
         if (res.isAuthSuccessful == false) {
-          console.log("Error-" , res.errorMessage)
+         // console.log("Error-" , res.errorMessage)
           this.hasError = true;
           this.error = res.errorMessage;
         } else if (res.isAuthSuccessful == true) {
@@ -119,7 +119,7 @@ export class LoginComponent implements OnInit {
           //console.log("res.type",res.type)
          // res.type = 'first';
           if (res.type == 'first') {
-            console.log("first",res.type)
+          //  console.log("first",res.type)
             var u =
               'otpauth://totp/PinWhole:' +
               this.email +
