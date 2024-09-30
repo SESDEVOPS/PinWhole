@@ -14,8 +14,8 @@ export class TokenService {
 
   apiUrl: any = '';
   token: any = '';
-
   clientID: any = '';
+
   constructor(private http: HttpClient, private logService: LogService) {
     this.apiUrl = environment.apiUrl;
     this.token = localStorage.getItem('token');
@@ -23,12 +23,30 @@ export class TokenService {
   }
   // Method to get access token from local storage
   getAccessToken(): string | null {
-    var token =
+    this.token =
       localStorage.getItem('token') === null
         ? localStorage.getItem('refreshToken')
         : localStorage.getItem('token');
 
-    return token;
+    if (this.isTokenExpired(this.token)) {
+      this.refreshToken();
+
+      this.token =
+      localStorage.getItem('token') === null
+        ? localStorage.getItem('refreshToken')
+        : localStorage.getItem('token');
+    }
+
+    return this.token;
+  }
+
+  isTokenExpired(token: string): any {
+    if (token != null) {
+      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+      const expTime = tokenPayload.exp;
+      return Math.floor(new Date().getTime() / 1000) >= expTime;
+    }
+    return null;
   }
 
   // Method to set access and refresh tokens
@@ -37,32 +55,17 @@ export class TokenService {
     localStorage.setItem('refreshToken', refreshToken);
   }
 
-  // Method to refresh the token
-  refreshToken(): Promise<any> {
-    const refreshToken = localStorage.getItem('refreshToken');
-    if (!refreshToken) {
-      return Promise.reject('No refresh token available');
-    }
+  refreshToken() {
+    var body = {
+      AccessToken: localStorage.getItem('token'),
+      RefreshToken: localStorage.getItem('refreshToken'),
+    };
 
-    if (this.refreshTokenInProgress) {
-      // If a refresh is already in progress, wait for it to complete
-      return this.refreshTokenSubject
-        .pipe(switchMap(() => Promise.resolve(this.getAccessToken())))
-        .toPromise();
-    } else {
-      this.refreshTokenInProgress = true;
-
-      return this.http
-        .post<any>(`${this.apiUrl}/account/refreshToken`, { refreshToken })
-        .pipe(
-          tap((response: any) => {
-            this.setTokens(response.accessToken, response.refreshToken);
-            this.refreshTokenSubject.next(response.accessToken);
-            this.refreshTokenInProgress = false;
-          })
-        )
-        .toPromise()
-        .then((response) => response.accessToken);
-    }
+    this.http
+      .post<any>(`${this.apiUrl}/account/refreshToken`, body)
+      .subscribe((token: any) => {
+        localStorage.setItem('token', token.accessToken);
+        localStorage.setItem('refreshToken', token.refreshToken);
+      });
   }
 }
